@@ -5,18 +5,7 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function NavBarTop(props) {
-  const [isLogged, setisLogged] = useState(false);
-
   let token = "";
-
-  useEffect(() => {
-    token = localStorage.getItem("token");
-    if (token) {
-      setisLogged(true);
-    } else {
-      setisLogged(false);
-    }
-  }, []);
 
   return (
     <>
@@ -30,19 +19,17 @@ export default function NavBarTop(props) {
                     <LinkContainer to={RouterPath.HOME}>
                       <Navbar.Brand>Awesome ToDOo</Navbar.Brand>
                     </LinkContainer>
-                    <div className={isLogged ? "" : "d-none"}>
-                      <Nav className="me-auto">
-                        <LinkContainer to={RouterPath.LIST_TODOS}>
-                          <Nav.Link>List To do</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer to={RouterPath.LIST_DONE}>
-                          <Nav.Link>List done</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer to={RouterPath.MY_INFORMATION}>
-                          <Nav.Link>My information</Nav.Link>
-                        </LinkContainer>
-                      </Nav>
-                    </div>
+                    <Nav className="me-auto">
+                      <LinkContainer to={RouterPath.LIST_TODOS}>
+                        <Nav.Link>List To do</Nav.Link>
+                      </LinkContainer>
+                      <LinkContainer to={RouterPath.LIST_DONE}>
+                        <Nav.Link>List done</Nav.Link>
+                      </LinkContainer>
+                      <LinkContainer to={RouterPath.MY_INFORMATION}>
+                        <Nav.Link>My information</Nav.Link>
+                      </LinkContainer>
+                    </Nav>
                   </Col>
                   <Col xs={1} className="align-items-end">
                     <Link to={RouterPath.SIGNUP}>
