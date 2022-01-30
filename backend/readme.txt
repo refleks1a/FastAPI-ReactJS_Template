@@ -13,5 +13,8 @@ deactivate
 # Freeze the virtual environment packages
 pip freeze -l > requirements.txt 
 
+# Install requirements
+pip install -r requirements.txt
+
 # Run server FastApi
 uvicorn main:app --reload   
