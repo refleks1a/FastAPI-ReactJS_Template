@@ -57,7 +57,7 @@ export default function HomePage(props) {
 
   return (
     <>
-      <NavBarTop />
+      {/* <NavBarTop /> */}
       <Container>
         <Row className="justify-content-md-center pt-5 ">
           <Col xs={4}>

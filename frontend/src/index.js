@@ -6,6 +6,7 @@ import { render } from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { RouterPath } from "./assets/dictionary/RouterPath";
+import { PrivateRoute } from "./components/auth/PrivateRoute";
 
 import App from "./App";
 import NavBarTop from "./components/nav_bar/NavBarTop";
@@ -22,19 +23,12 @@ import PasswordChanged from "./pages/forgot_password/password_changed/PasswordCh
 import LinkNotValid from "./pages/link_not_valid/LinkNotValid";
 import ConfirmEmail from "./pages/sign_up/confirm_email/ConfirmEmail";
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
-
 const rootElement = document.getElementById("root");
 render(
   <BrowserRouter>
     <Routes>
-      <Route exact path={RouterPath.HOME} element={<HomePage />}></Route>
       <Route path={RouterPath.HOME} element={<App />}>
+        <Route exact path={RouterPath.HOME} element={<HomePage />}></Route>
         <Route path={RouterPath.SIGNUP} element={<SignUpForm />} />
         <Route
           path={RouterPath.SIGNUP_MAIL_SENT}
@@ -63,14 +57,34 @@ render(
 
         <Route path={RouterPath.LINK_NOT_VALID} element={<LinkNotValid />} />
 
-        <Route path={RouterPath.LIST_TODOS} element={<ToDo />} />
-        <Route path={RouterPath.LIST_DONE} element={<ToDoDone />} />
-        <Route path={RouterPath.MY_INFORMATION} element={<Profil />} />
+        <Route
+          path={RouterPath.LIST_TODOS}
+          element={
+            <PrivateRoute>
+              <ToDo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={RouterPath.LIST_DONE}
+          element={
+            <PrivateRoute>
+              <ToDoDone />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={RouterPath.MY_INFORMATION}
+          element={
+            <PrivateRoute>
+              <Profil />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<LinkNotValid />} />
       </Route>
     </Routes>
   </BrowserRouter>,
-
   rootElement
 );
 
