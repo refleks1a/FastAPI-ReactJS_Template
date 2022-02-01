@@ -17,9 +17,9 @@ export default function NavBarTop(props) {
 
   return (
     <>
-      <Container fluid className="p-0">
+      <Container fluid>
         <Row>
-          <Col>
+          <Col className="p-0">
             <Navbar bg="dark" variant="dark">
               <Container>
                 <Row className="w-100 justify-content-between">
