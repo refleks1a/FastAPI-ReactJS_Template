@@ -34,9 +34,29 @@ const deleteToDo = async (id) => {
     };
   }
 
+const makeDoneToDo = async (data) => {
+    try {
+      const response = await axios.put(
+      myAppConfig.api.ENDPOINT + "/api/v1/todos/update-todo",
+      data,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      
+    //   console.log(response.data);
+      return response;
+      
+    } catch(error) {
+      throw new Error(`Bad request`);
+    };
+  }
+
 const DataService = {
     getTodos,
-    deleteToDo
+    deleteToDo,
+    makeDoneToDo
 };
 
 export default DataService;

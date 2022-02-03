@@ -17,6 +17,25 @@ export default function ToDo() {
   const [perPage, setPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const handleMakeDone = (id, e) => {
+
+    e.preventDefault();
+
+    const data = { id: id,   
+      todo_in: {
+      is_done: true
+    }
+    }
+ 
+    DataService.makeDoneToDo(data)
+    .then(() => {
+      setRefresh(Date.now())
+    })
+    .catch((error) => {
+       //error
+    });
+  };
+
   const handleDelete = (id, e) => {
 
     e.preventDefault();
@@ -30,7 +49,7 @@ export default function ToDo() {
     });
   };
 
-  function linkDeleteToDo(
+  function FormatterLinkDeleteToDo(
     cell,
     row,
     rowIndex,
@@ -39,10 +58,11 @@ export default function ToDo() {
     return (
       <span>
         <Button variant="link" size="sm" 
+        onClick={(e) => handleMakeDone(formatExtraData[rowIndex].id, e)}
+        >Done</Button>
+        <Button variant="link" size="sm" 
         onClick={(e) => handleDelete(formatExtraData[rowIndex].id, e)}
         >Delete</Button>
-        {/* {formatExtraData[rowIndex].id} */}
-  
       </span>
     );
   }
@@ -56,7 +76,7 @@ export default function ToDo() {
   }, {
     dataField: '',
     text: 'Actions',
-    formatter: linkDeleteToDo,
+    formatter: FormatterLinkDeleteToDo,
     formatExtraData: ItemsTodos,
     align: 'right',
     headerAlign: 'right',
