@@ -12,6 +12,8 @@ class TodoBase(BaseModel):
 # Properties to receive on Todo creation
 class TodoCreate(TodoBase):
     title: str
+    owner_id: int
+
 
 # Properties to receive on Todo deletion
 class TodoDelete(BaseModel):

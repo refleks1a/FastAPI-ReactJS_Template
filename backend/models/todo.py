@@ -12,6 +12,6 @@ if TYPE_CHECKING:
 class Todo(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(250))
-    owner_id = Column(Integer, ForeignKey("user.id"))
+    owner_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     is_done = Column(Boolean, default=False)
     owner = relationship("User", back_populates="todos")

@@ -1,4 +1,4 @@
-import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 
@@ -13,14 +13,14 @@ export default function ConfirmEmail(props) {
 
   let token = searchParams.get("token");
 
-  useEffect(() => {
+  useEffect((navigate, token) => {
     if (!token) {
       navigate(RouterPath.LINK_NOT_VALID);
     }
 
     DataService.postConfirmEmail(token)
       .then((response) => {
-        if (response.status != 200) {
+        if (response.status !== 200) {
           navigate(RouterPath.LINK_NOT_VALID);
         }
         setisSendingRequest(false);

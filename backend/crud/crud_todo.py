@@ -32,6 +32,16 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
             query = query.filter(Todo.is_done == False)
         return query
 
+    def get_multi(
+        self, db: Session, *, is_done: bool, limit: int = 100
+    ) -> List[Todo]:
+        query = db.query(self.model)
+        if is_done == True:
+            query = query.filter(Todo.is_done == True)
+        elif is_done == False:
+            query = query.filter(Todo.is_done == False)
+        return query.limit(limit).all()
+
     def remove(self, db: Session, *, id: int) -> Todo:
         obj = db.query(self.model).get(id)
         db.delete(obj)

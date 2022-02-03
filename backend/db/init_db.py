@@ -17,11 +17,27 @@ def init_db(db: Session) -> None:
     # the tables un-commenting the next line
     Base.metadata.create_all(bind=engine)
     pass
-    user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER)
+    user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER_EMAIL)
     if not user:
         user_in = schemas.UserCreate(
-            email=settings.FIRST_SUPERUSER,
+            email=settings.FIRST_SUPERUSER_EMAIL,
             password=settings.FIRST_SUPERUSER_PASSWORD,
+            first_name=settings.FIRST_SUPERUSER_FIRST_NAME,
+            last_name=settings.FIRST_SUPERUSER_LAST_NAME,
+            is_active=True,
             is_superuser=True,
         )
-        user = crud.user.create(db, obj_in=user_in)  # noqa: F841
+        user = crud.user.create(db, obj_in=user_in)
+
+    todos = crud.todo.get_multi(db, is_done=None)
+    number_todo = 100
+    if len(todos)<number_todo:
+        for i in range(number_todo):
+            todo_in = schemas.TodoCreate(
+                title="Visit the office #{}". format(str(i+1)),
+                is_done=False,
+                owner_id = user.id
+            )
+            crud.todo.create(db, obj_in=todo_in)
+
+    print(todos)

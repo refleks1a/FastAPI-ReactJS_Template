@@ -1,13 +1,12 @@
 import { Button, Container, Row, Col, Navbar, Nav } from "react-bootstrap";
-import { useState, useEffect } from "react";
 import { RouterPath } from "../../assets/dictionary/RouterPath";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 export default function NavBarTop(props) {
   const isAuthenticated = localStorage.getItem("token") ? true : false;
   let navigate = useNavigate();
+  const location = useLocation();
 
   const handleClickLogOut = (e) => {
     e.preventDefault();
@@ -27,7 +26,7 @@ export default function NavBarTop(props) {
                     <LinkContainer to={RouterPath.HOME}>
                       <Navbar.Brand>Awesome ToDOo</Navbar.Brand>
                     </LinkContainer>
-                    <Nav className="me-auto">
+                    <Nav className="me-auto" activeKey={location.pathname}>
                       {isAuthenticated && (
                         <>
                           <LinkContainer to={RouterPath.LIST_TODOS}>

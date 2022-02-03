@@ -29,7 +29,9 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     PROJECT_NAME: str = os.environ.get("PROJECT_NAME")
-    FIRST_SUPERUSER: str = os.environ.get("FIRST_SUPERUSER")
+    FIRST_SUPERUSER_EMAIL: str = os.environ.get("FIRST_SUPERUSER_EMAIL")
+    FIRST_SUPERUSER_FIRST_NAME: str = os.environ.get("FIRST_SUPERUSER_FIRST_NAME")
+    FIRST_SUPERUSER_LAST_NAME: str = os.environ.get("FIRST_SUPERUSER_FIRST_NAME") 
     FIRST_SUPERUSER_PASSWORD: str = os.environ.get("FIRST_SUPERUSER_PASSWORD")
 
     SQLALCHEMY_DATABASE_URI: Optional[str] = "sqlite:///./sql_app.db"
