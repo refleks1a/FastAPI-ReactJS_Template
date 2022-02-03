@@ -4,7 +4,7 @@ import { RouterPath } from "../../../assets/dictionary/RouterPath";
 import BootstrapTable from 'react-bootstrap-table-next';
 import DataService from "./ToDoService";
 import { useState, useEffect } from "react";
-
+import AddToDo from "./add_todo/AddToDo"
 
 export default function ToDo() {
 
@@ -87,7 +87,6 @@ export default function ToDo() {
     .then(
       response => {
       setItemsTodos(response.data.items)
-      
     }
     )
     .catch((error) => {
@@ -104,7 +103,13 @@ export default function ToDo() {
           <Col xs={12}>
             <Card>
               <Card.Body>
-                <Card.Title>List to do</Card.Title>
+                <Card.Title>
+                <Container fluid className="p-0">
+                  <Row>
+                  <Col xs={6}>List to do</Col>
+                  <Col xs={6} className="d-flex justify-content-end"><AddToDo/></Col>
+                  </Row>
+                  </Container></Card.Title>
                 <BootstrapTable bordered={false} hover keyField='id' data={ ItemsTodos } columns={ columns } />
               </Card.Body>
             </Card>
