@@ -5,17 +5,20 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import DataService from "./ToDoService";
 import { useState, useEffect } from "react";
 import AddToDo from "./add_todo/AddToDo"
+import ReactPaginate from "react-paginate"
 
 export default function ToDo() {
 
   const [refresh, setRefresh] = useState(0);
 
   const [ItemsTodos, setItemsTodos] = useState([]);
-  const [ItemsPagination, setItemsPagination] = useState([]);
 
-  const [pg, setPg] = useState();
-  const [perPage, setPerPage] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setpageCount] = useState(5);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [newPage, setnewPage] = useState(1);
+
+
+  const itemsPerPage = 20;
 
   const handleMakeDone = (id, e) => {
 
@@ -83,17 +86,24 @@ export default function ToDo() {
   }];
 
   useEffect(() => {
-    DataService.getTodos(false, 1, 50)
+    // console.log(`Loading items for page number ${newPage}`);
+    DataService.getTodos(false, newPage, itemsPerPage)
     .then(
       response => {
       setItemsTodos(response.data.items)
+      // console.log(response.data.total);
+      setpageCount(Math.ceil(response.data.total / itemsPerPage));
+      // console.log(`PageCount ${pageCount}`);
     }
     )
     .catch((error) => {
       // console.log("error")
     });
-     
-  }, [refresh]);
+  }, [refresh, newPage]);
+
+  const handlePageClick = (event) =>{
+    setnewPage(event.selected+1);
+  };
   
 
   return (
@@ -107,10 +117,31 @@ export default function ToDo() {
                 <Container fluid className="p-0">
                   <Row>
                   <Col xs={6}>List to do</Col>
-                  <Col xs={6} className="d-flex justify-content-end"><AddToDo/></Col>
+                  <Col xs={6} className="d-flex justify-content-end"><AddToDo tableRefresh={setRefresh}/></Col>
                   </Row>
                   </Container></Card.Title>
                 <BootstrapTable bordered={false} hover keyField='id' data={ ItemsTodos } columns={ columns } />
+                <ReactPaginate
+                  className="pagination justify-content-center"
+                  nextLabel=">"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  pageCount={pageCount}
+                  previousLabel="<"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                />
               </Card.Body>
             </Card>
           </Col>

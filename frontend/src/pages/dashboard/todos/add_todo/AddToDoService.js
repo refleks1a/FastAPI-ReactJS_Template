@@ -4,7 +4,7 @@ import myAppConfig from "../../../../config";
 const addDoneToDo = async (data) => {
     try {
       const response = await axios.post(
-      myAppConfig.api.ENDPOINT + "/api/v1/todos/update-todo",
+      myAppConfig.api.ENDPOINT + "/api/v1/todos/create-todo",
       data,
       {
         headers: {

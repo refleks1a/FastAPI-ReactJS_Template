@@ -36,8 +36,8 @@ def init_db(db: Session) -> None:
             todo_in = schemas.TodoCreate(
                 title="Visit the office #{}". format(str(i+1)),
                 is_done=False,
-                owner_id = user.id
+                
             )
-            crud.todo.create(db, obj_in=todo_in)
+            crud.todo.create_with_owner(db, obj_in=todo_in, owner_id=user.id)
 
     print(todos)

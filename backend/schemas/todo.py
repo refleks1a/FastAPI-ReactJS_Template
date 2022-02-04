@@ -7,12 +7,14 @@ from pydantic import BaseModel
 class TodoBase(BaseModel):
     title: str = None
     is_done: bool = None
+    owner_id: int = None
 
 
 # Properties to receive on Todo creation
-class TodoCreate(TodoBase):
+class TodoCreate(BaseModel):
     title: str
-    owner_id: int
+
+
 
 
 # Properties to receive on Todo deletion
