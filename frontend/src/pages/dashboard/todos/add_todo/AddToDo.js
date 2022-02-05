@@ -1,6 +1,6 @@
 import { Button, Modal, Form} from "react-bootstrap";
 import DataService from "./AddToDoService";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function ToDo({tableRefresh }) {
 

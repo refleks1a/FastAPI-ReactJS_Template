@@ -12,10 +12,9 @@ export default function ResetPassword(props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   let navigate = useNavigate();
-
   let token = searchParams.get("token");
 
-  useEffect(() => {
+  useEffect((navigate, token) => {
     if (!token) {
       navigate(RouterPath.LINK_NOT_VALID);
     }
@@ -60,8 +59,8 @@ export default function ResetPassword(props) {
   return (
     <>
       <Container>
-        <Row className="justify-content-md-center pt-5 ">
-          <Col xs={4}>
+        <Row className="justify-content-center pt-5 ">
+          <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
                 <Card.Title>Reset password</Card.Title>

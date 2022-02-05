@@ -15,8 +15,6 @@ class TodoCreate(BaseModel):
     title: str
 
 
-
-
 # Properties to receive on Todo deletion
 class TodoDelete(BaseModel):
     id: int

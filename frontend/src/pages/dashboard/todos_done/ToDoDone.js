@@ -1,21 +1,40 @@
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { RouterPath } from "../../../assets/dictionary/RouterPath";
 import BootstrapTable from 'react-bootstrap-table-next';
 import DataService from "./ToDoService";
 import { useState, useEffect } from "react";
-
+import ReactPaginate from "react-paginate"
 
 export default function ToDoDone() {
 
   const [refresh, setRefresh] = useState(0);
 
   const [ItemsTodos, setItemsTodos] = useState([]);
-  const [ItemsPagination, setItemsPagination] = useState([]);
 
-  const [pg, setPg] = useState();
-  const [perPage, setPerPage] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setpageCount] = useState(5);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [newPage, setnewPage] = useState(1);
+
+
+  const itemsPerPage = 20;
+
+  const handleMakeDone = (id, e) => {
+
+    e.preventDefault();
+
+    const data = { id: id,   
+      todo_in: {
+      is_done: true
+    }
+    }
+ 
+    DataService.makeDoneToDo(data)
+    .then(() => {
+      setRefresh(Date.now())
+    })
+    .catch((error) => {
+       //error
+    });
+  };
 
   const handleDelete = (id, e) => {
 
@@ -39,6 +58,9 @@ export default function ToDoDone() {
     return (
       <span>
         <Button variant="link" size="sm" 
+        onClick={(e) => handleMakeDone(formatExtraData[rowIndex].id, e)}
+        >Done</Button>
+        <Button variant="link" size="sm" 
         onClick={(e) => handleDelete(formatExtraData[rowIndex].id, e)}
         >Delete</Button>
       </span>
@@ -61,29 +83,56 @@ export default function ToDoDone() {
   }];
 
   useEffect(() => {
-    DataService.getTodos(true, 1, 50)
+    // console.log(`Loading items for page number ${newPage}`);
+    DataService.getTodos(true, newPage, itemsPerPage)
     .then(
       response => {
       setItemsTodos(response.data.items)
-      
+      // console.log(response.data.total);
+      setpageCount(Math.ceil(response.data.total / itemsPerPage));
+      // console.log(`PageCount ${pageCount}`);
     }
     )
     .catch((error) => {
       // console.log("error")
     });
-     
-  }, [refresh]);
+  }, [refresh, newPage]);
+
+  const handlePageClick = (event) =>{
+    setnewPage(event.selected+1);
+  };
   
 
   return (
     <>
       <Container>
-        <Row className="justify-content-md-center pt-5 ">
+        <Row className="justify-content-center pt-5 ">
           <Col xs={12}>
             <Card>
               <Card.Body>
                 <Card.Title>List done</Card.Title>
                 <BootstrapTable bordered={false} hover keyField='id' data={ ItemsTodos } columns={ columns } />
+                <ReactPaginate
+                  className="pagination justify-content-center"
+                  nextLabel=">"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  marginPagesDisplayed={2}
+                  pageCount={pageCount}
+                  previousLabel="<"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  breakLabel="..."
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  activeClassName="active"
+                  renderOnZeroPageCount={null}
+                />
               </Card.Body>
             </Card>
           </Col>

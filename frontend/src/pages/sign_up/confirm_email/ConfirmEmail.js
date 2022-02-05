@@ -10,7 +10,6 @@ export default function ConfirmEmail(props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   let navigate = useNavigate();
-
   let token = searchParams.get("token");
 
   useEffect((navigate, token) => {
@@ -33,8 +32,8 @@ export default function ConfirmEmail(props) {
   return (
     <>
       <Container className={isSendingRequest ? "d-none" : ""}>
-        <Row className="justify-content-md-center pt-5 ">
-          <Col xs={4}>
+        <Row className="justify-content-center pt-5 ">
+          <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
                 <Card.Title>Email was confirmed !</Card.Title>

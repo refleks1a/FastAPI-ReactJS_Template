@@ -47,8 +47,8 @@ export default function ForgotPasswordForm(props) {
   return (
     <>
       <Container>
-        <Row className="justify-content-md-center pt-5 ">
-          <Col xs={4}>
+        <Row className="justify-content-center pt-5 ">
+          <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
                 <Card.Title>Forgot password?</Card.Title>

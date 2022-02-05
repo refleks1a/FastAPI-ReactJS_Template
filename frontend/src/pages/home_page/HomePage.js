@@ -4,15 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 import DataService from "./HomePageService";
-import NavBarTop from "../../components/nav_bar/NavBarTop";
 import { RouterPath } from "../../assets/dictionary/RouterPath";
 
 export default function HomePage(props) {
   const [isShowValidationError, setisShowValidationError] = useState(false);
   const [isSendingRequest, setisSendingRequest] = useState(false);
 
-  const [FirstNameForm, setFirstNameForm] = useState("");
-  const [LastNameForm, setLastNameForm] = useState("");
   const [EmailForm, setEmailForm] = useState("");
   const [PasswordForm, setPasswordForm] = useState("");
 
@@ -59,8 +56,8 @@ export default function HomePage(props) {
     <>
       {/* <NavBarTop /> */}
       <Container>
-        <Row className="justify-content-md-center pt-5 ">
-          <Col xs={4}>
+        <Row className="justify-content-center pt-5 ">
+          <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
                 <Card.Title>Login</Card.Title>
