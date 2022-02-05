@@ -14,6 +14,8 @@ export default function HomePage(props) {
   const [PasswordForm, setPasswordForm] = useState("");
 
   let navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
+
 
   const handleClick = (e) => {
     setisSendingRequest(true);
@@ -60,6 +62,8 @@ export default function HomePage(props) {
           <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
+              {!isAuthenticated && (
+                        <>     
                 <Card.Title>Login</Card.Title>
                 <Form>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -105,6 +109,12 @@ export default function HomePage(props) {
                 <LinkContainer to={RouterPath.FORGOT_PASSWORD}>
                   <Card.Link>Forgot password?</Card.Link>
                 </LinkContainer>
+                </>)}
+              {isAuthenticated && (
+                        <>     
+                <Card.Title>Welcome to Awesome ToDOo!</Card.Title>
+                <Card.Text>This web application was made with ReactJS (JavaScript), FastAPI (Python), Bootstrap, SQLite and other great technologies.</Card.Text>
+                </>)}
               </Card.Body>
             </Card>
           </Col>
