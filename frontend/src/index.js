@@ -9,8 +9,8 @@ import { RouterPath } from "./assets/dictionary/RouterPath";
 import { PrivateRoute } from "./components/auth/PrivateRoute";
 
 import App from "./App";
-import NavBarTop from "./components/nav_bar/NavBarTop";
 import HomePage from "./pages/home_page/HomePage";
+import Login from "./pages/login/Login";
 import SignUpForm from "./pages/sign_up/sign_up_form/SignUpForm";
 import ConfirmationEmailSent from "./pages/sign_up/confirmation_email_sent/ConfirmationEmailSent";
 import ToDo from "./pages/dashboard/todos/ToDo";
@@ -29,6 +29,7 @@ render(
     <Routes>
       <Route path={RouterPath.HOME} element={<App />}>
         <Route exact path={RouterPath.HOME} element={<HomePage />}></Route>
+        <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUpForm />} />
         <Route
           path={RouterPath.SIGNUP_MAIL_SENT}

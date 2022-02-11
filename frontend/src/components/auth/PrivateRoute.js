@@ -1,6 +1,7 @@
 import { Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import DataService from "./Service";
+import {RouterPath} from "../../assets/dictionary/RouterPath"
 
 export const PrivateRoute = ({ children }) => {
   const [isAuth, setIsAuth] = useState(true);
@@ -22,7 +23,7 @@ export const PrivateRoute = ({ children }) => {
     if (isAuth) {
       return children;
     } else {
-      return <Navigate to="/" />;
+      return <Navigate to={RouterPath.LOGIN} />;
     }
   } else {
     return null;

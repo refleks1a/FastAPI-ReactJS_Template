@@ -1,20 +1,14 @@
-from typing import Any, List
+from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
-from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
-from fastapi_pagination import LimitOffsetPage, Params, Page
+from fastapi_pagination import Params, Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 import crud, models, schemas
 from api import deps
-from core.config import settings
-
-
 
 router = APIRouter()
-
 
 @router.post("/create-todo", response_model=schemas.Todo, responses={
     401: {"model": schemas.Detail, "description": "User unathorized"}

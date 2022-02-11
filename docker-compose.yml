@@ -1,0 +1,183 @@
+# @see https://medium.com/@xiaolishen/develop-in-docker-a-node-backend-and-a-react-front-end-talking-to-each-other-5c522156f634
+version: "3.8"
+
+x-linux-container-environment: &common-linux-container-environment-variables
+  TZ: ${TZ}
+  # 1000 is the default main user uid/gid, using it as a sane default value
+  APP_UID: ${APP_UID:-1000}
+  APP_GID: ${APP_GID:-1000}
+
+
+x-fastapi-app-environment: &common-fastapi-app-environment-variables
+
+  API_PORT: ${API_PORT}
+  API_PORT_INTERNAL: ${API_PORT_INTERNAL}
+
+  SECRET_KEY: ${SECRET_KEY}
+  PROJECT_NAME: ${PROJECT_NAME}
+  SERVER_HOST_FRONT: ${SERVER_HOST_FRONT}
+
+  FIRST_SUPERUSER_EMAIL: ${FIRST_SUPERUSER_EMAIL}
+  FIRST_SUPERUSER_FIRST_NAME: ${FIRST_SUPERUSER_FIRST_NAME}
+  FIRST_SUPERUSER_LAST_NAME: ${FIRST_SUPERUSER_LAST_NAME}
+  FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD}
+
+  # Email configuration
+  SMTP_USER: ${SMTP_USER}
+  SMTP_PASSWORD: ${SMTP_PASSWORD}
+  EMAILS_FROM_EMAIL: ${EMAILS_FROM_EMAIL}
+  SMTP_PORT: ${SMTP_PORT}
+  SMTP_HOST: ${SMTP_HOST}
+  EMAILS_FROM_NAME: ${EMAILS_FROM_NAME}
+
+services:
+  # react application with nginx reserve proxy for npm (NOT the same reverse proxy as in qualis-reverse-proxy)
+  # @see https://mherman.org/blog/dockerizing-a-react-app/
+  todo-frontend:
+    image: "todo-frontend:latest"
+    # depends_on:
+    #   - qualis-api
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT_INTERNAL}
+    environment:
+      <<: *common-linux-container-environment-variables
+      # needed for hot reload to work
+      # @see https://stackoverflow.com/questions/44643045/running-development-server-with-create-react-app-inside-of-a-docker-container
+      CHOKIDAR_USEPOLLING: "true"
+      REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
+      NODE_ENV: ${NODE_ENV}
+    # Avoid container exiting immediately after start
+    # @see https://github.com/facebook/create-react-app/issues/8688
+    stdin_open: true
+    restart: unless-stopped
+
+  # fastapi application
+  todo-api:
+    image: "todo-api:latest"
+    ports:
+      - ${API_PORT}:${API_PORT_INTERNAL}
+    environment:
+      <<: *common-linux-container-environment-variables
+      <<: *common-fastapi-app-environment-variables
+    restart: unless-stopped
+
+#   # in order to run multiple instances we must run docker-compose with --scale parameter like this
+#   # docker-compose up--scale qualis-worker=5
+#   # in order to have five instances of the qualis-worker
+#   qualis-worker:
+#     image: "qualis2_qualis-api:latest"
+#     depends_on:
+#       - qualis-postgres
+#       - qualis-redis
+#     # Make sure that all queue names are specified here in top-to-bottom priority order
+#     command: flask rq worker
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#       <<: *common-flask-app-environment-variables
+#     restart: unless-stopped
+
+#   # Flask-RQ2 requires a separate process to schedule the tasks for execution
+#   qualis-scheduler:
+#     image: "qualis2_qualis-api:latest"
+#     depends_on:
+#       - qualis-redis
+#     command: flask rq scheduler
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#       <<: *common-flask-app-environment-variables
+#     restart: unless-stopped
+
+#   qualis-doc:
+#     image: "qualis2_qualis-doc:latest"
+#     ports:
+#       - ${QUALIS_DOC_PORT}:${QUALIS_DOC_PORT_INTERNAL}
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#     restart: unless-stopped
+
+  # nginx reverse proxy for frontend/backend
+  todo-reverse-proxy:
+    image: "todo-reverse-proxy:latest"
+    depends_on:
+      # - qualis-api
+      - todo-frontend
+    ports:
+      - ${REVERSE_PROXY_PORT}:80
+    environment:
+      <<: *common-linux-container-environment-variables
+      # API_PORT_INTERNAL: ${API_PORT_INTERNAL}
+      FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
+    restart: unless-stopped
+
+#   # postgres database, data is persisted in a volume
+#   qualis-postgres:
+#     image: "postgres:12.4-alpine"
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     ports:
+#       - ${QUALIS_POSTGRES_PORT}:5432
+#     volumes:
+#       # real location is project directory name + '_' + volume name
+#       # - /var/lib/docker/volumes/qualis2_qualis-postgres-data:/var/lib/postgresql/data
+#       - qualis-postgres-data:/var/lib/postgresql/data
+#     restart: unless-stopped
+
+#   # pgadmin to view and control the database
+#   qualis-pgadmin:
+#     image: "dpage/pgadmin4:4.25"
+#     depends_on:
+#       - qualis-postgres
+#     ports:
+#       - ${QUALIS_PGADMIN_PORT}:80
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#       PGADMIN_DEFAULT_EMAIL: admin
+#       PGADMIN_DEFAULT_PASSWORD: password
+#       # disable spamming all the screen with logs
+#       GUNICORN_ACCESS_LOGFILE: /dev/null
+#     restart: unless-stopped
+
+#   # fake smtp server to intercept and view sent emails
+#   qualis-mailhog:
+#     image: "mailhog/mailhog:v1.0.1"
+#     ports:
+#       - ${QUALIS_MAILHOG_PORT}:8025
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#     restart: unless-stopped
+
+#   qualis-redis:
+#     image: "redis:6.0.8-alpine3.12"
+#     ports:
+#       - ${QUALIS_REDIS_PORT}:6379
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#     volumes:
+#       # real location is project directory name + '_' + volume name
+#       # - /var/lib/docker/volumes/qualis2_qualis-redis-data:/var/lib/redis
+#       - qualis-redis-data:/var/lib/redis
+#     restart: unless-stopped
+
+#   qualis-rq-dashboard:
+#     image: "qualis2_qualis-rq-dashboard:latest"
+#     depends_on:
+#       - qualis-redis
+#     command: --url-prefix /rq
+#     ports:
+#       - ${QUALIS_RQ_DASHBOARD_PORT}:${QUALIS_RQ_DASHBOARD_PORT_INTERNAL}
+#     environment:
+#       <<: *common-linux-container-environment-variables
+#       RQ_DASHBOARD_REDIS_URL: ${REDIS_URL}
+#       RQ_DASHBOARD_USERNAME: rq
+#       RQ_DASHBOARD_PASSWORD: password
+#     restart: unless-stopped
+
+# volumes:
+#   qualis-postgres-data:
+#     name: ${POSTGRES_STORAGE_VOLUME_NAME}
+
+#   qualis-redis-data:
+#     name: ${REDIS_STORAGE_VOLUME_NAME}

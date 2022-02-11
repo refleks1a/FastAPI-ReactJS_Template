@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
-import DataService from "./HomePageService";
+import DataService from "./LoginService";
 import { RouterPath } from "../../assets/dictionary/RouterPath";
 
 export default function HomePage(props) {
@@ -56,14 +56,62 @@ export default function HomePage(props) {
 
   return (
     <>
-      {/* <NavBarTop /> */}
       <Container>
         <Row className="justify-content-center pt-5 ">
           <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
-              
-              <Card.Title>Welcome to Awesome ToDOo!</Card.Title>
+              {!isAuthenticated && (
+                        <>     
+                <Card.Title>Login</Card.Title>
+                <Form>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>
+                      Email<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      onChange={(event) => setEmailForm(event.target.value)}
+                      value={EmailForm}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>
+                      Password<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Password"
+                      onChange={(event) => setPasswordForm(event.target.value)}
+                      value={PasswordForm}
+                    />
+                  </Form.Group>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-100 mb-2"
+                    onClick={(e) => handleClick(e)}
+                    disabled={isSendingRequest}
+                  >
+                    Login
+                  </Button>
+                  <Form.Text
+                    className={
+                      "text-danger " + (isShowValidationError ? "" : "d-none")
+                    }
+                  >
+                    Email or password not valid
+                  </Form.Text>
+                </Form>
+                <LinkContainer to={RouterPath.FORGOT_PASSWORD}>
+                  <Card.Link>Forgot password?</Card.Link>
+                </LinkContainer>
+                </>)}
+              {isAuthenticated && (
+                        <>     
+                <Card.Title>Welcome to Awesome ToDOo!</Card.Title>
                 <Card.Text className="pt-2">This web application was made with :
                 <ul>
                   <li>ReactJS (JavaScript)</li>
@@ -73,7 +121,7 @@ export default function HomePage(props) {
                   <li>And other great technologies</li>
                 </ul>
                 </Card.Text>
-              
+                </>)}
               </Card.Body>
             </Card>
           </Col>

@@ -51,7 +51,7 @@ export default function NavBarTop(props) {
                         <Link to={RouterPath.SIGNUP}>
                           <Button>Sign up</Button>
                         </Link>
-                        <Link className="ml-1" to={RouterPath.HOME}>
+                        <Link className="ml-1" to={RouterPath.LOGIN}>
                           <Button variant="success">Login</Button>
                         </Link>
                       </>

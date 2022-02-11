@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import APIRouter, Depends
 from pydantic.networks import EmailStr
 
-import models, schemas
+import schemas
 from api import deps
 from utils import send_test_email
 
