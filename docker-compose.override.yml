@@ -15,16 +15,13 @@ services:
       # @see https://stackoverflow.com/a/51099232
       - ./frontend:/app
 
-  # # flask application -- API part
-  # qualis-api:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     # running only two API backend workers during local development
-  #     WEB_CONCURRENCY: 2
-  #   volumes:
-  #     - ./backend/:/app
+  # flask application -- API part
+  todo-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/:/code
 
   # # flask application -- worker part (rq)
   # qualis-worker:

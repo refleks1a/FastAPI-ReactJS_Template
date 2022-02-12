@@ -35,8 +35,8 @@ services:
   # @see https://mherman.org/blog/dockerizing-a-react-app/
   todo-frontend:
     image: "todo-frontend:latest"
-    # depends_on:
-    #   - qualis-api
+    depends_on:
+      - todo-api
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT_INTERNAL}
     environment:
@@ -59,6 +59,21 @@ services:
     environment:
       <<: *common-linux-container-environment-variables
       <<: *common-fastapi-app-environment-variables
+    restart: unless-stopped
+
+
+  # nginx reverse proxy for frontend/backend
+  todo-reverse-proxy:
+    image: "todo-reverse-proxy:latest"
+    depends_on:
+      - todo-api
+      - todo-frontend
+    ports:
+      - ${REVERSE_PROXY_PORT}:80
+    environment:
+      <<: *common-linux-container-environment-variables
+      API_PORT_INTERNAL: ${API_PORT_INTERNAL}
+      FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
     restart: unless-stopped
 
 #   # in order to run multiple instances we must run docker-compose with --scale parameter like this
@@ -95,19 +110,7 @@ services:
 #       <<: *common-linux-container-environment-variables
 #     restart: unless-stopped
 
-  # nginx reverse proxy for frontend/backend
-  todo-reverse-proxy:
-    image: "todo-reverse-proxy:latest"
-    depends_on:
-      # - qualis-api
-      - todo-frontend
-    ports:
-      - ${REVERSE_PROXY_PORT}:80
-    environment:
-      <<: *common-linux-container-environment-variables
-      # API_PORT_INTERNAL: ${API_PORT_INTERNAL}
-      FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
-    restart: unless-stopped
+
 
 #   # postgres database, data is persisted in a volume
 #   qualis-postgres:

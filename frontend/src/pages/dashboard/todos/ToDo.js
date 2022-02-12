@@ -1,6 +1,4 @@
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { RouterPath } from "../../../assets/dictionary/RouterPath";
 import BootstrapTable from 'react-bootstrap-table-next';
 import DataService from "./ToDoService";
 import { useState, useEffect } from "react";
@@ -14,7 +12,6 @@ export default function ToDo() {
   const [ItemsTodos, setItemsTodos] = useState([]);
 
   const [pageCount, setpageCount] = useState(5);
-  const [itemOffset, setItemOffset] = useState(0);
   const [newPage, setnewPage] = useState(1);
 
 
@@ -86,14 +83,11 @@ export default function ToDo() {
   }];
 
   useEffect(() => {
-    // console.log(`Loading items for page number ${newPage}`);
     DataService.getTodos(false, newPage, itemsPerPage)
     .then(
       response => {
       setItemsTodos(response.data.items)
-      // console.log(response.data.total);
       setpageCount(Math.ceil(response.data.total / itemsPerPage));
-      // console.log(`PageCount ${pageCount}`);
     }
     )
     .catch((error) => {
