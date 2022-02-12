@@ -13,7 +13,6 @@ export default function ForgotPasswordForm(props) {
 
   const handleClick = (e) => {
     setisSendingRequest(true);
-
     e.preventDefault();
 
     if (
@@ -28,9 +27,7 @@ export default function ForgotPasswordForm(props) {
     } else {
       DataService.postSendEmailForgotPassword(EmailForm.toLowerCase())
         .then((response) => {
-          console.log(response.status);
           if (response.status === 200 || response.status === 201) {
-            console.log("cou");
             navigate(RouterPath.FORGOT_PASSWORD_MAIL_SENT);
           } else {
             setisSendingRequest(false);

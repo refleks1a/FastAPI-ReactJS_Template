@@ -11,7 +11,6 @@ export default function ToDoDone() {
   const [ItemsTodos, setItemsTodos] = useState([]);
 
   const [pageCount, setpageCount] = useState(5);
-  const [itemOffset, setItemOffset] = useState(0);
   const [newPage, setnewPage] = useState(1);
 
 
@@ -83,14 +82,11 @@ export default function ToDoDone() {
   }];
 
   useEffect(() => {
-    // console.log(`Loading items for page number ${newPage}`);
     DataService.getTodos(true, newPage, itemsPerPage)
     .then(
       response => {
       setItemsTodos(response.data.items)
-      // console.log(response.data.total);
       setpageCount(Math.ceil(response.data.total / itemsPerPage));
-      // console.log(`PageCount ${pageCount}`);
     }
     )
     .catch((error) => {

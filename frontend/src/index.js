@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { render } from "react-dom";
 
-// import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { RouterPath } from "./assets/dictionary/RouterPath";

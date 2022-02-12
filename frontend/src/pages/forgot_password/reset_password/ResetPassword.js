@@ -1,7 +1,6 @@
 import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
 import { RouterPath } from "../../../assets/dictionary/RouterPath";
 import DataService from "./ResetPasswordService";
 
@@ -24,7 +23,6 @@ export default function ResetPassword(props) {
     setisSendingRequest(true);
     e.preventDefault();
 
-    console.log("cou");
     if (PasswordForm.length < 6) {
       setisValidationError(true);
       setisSendingRequest(false);
@@ -36,8 +34,6 @@ export default function ResetPassword(props) {
 
       DataService.postResetPassword(data)
         .then((response) => {
-          console.log(response.status);
-
           if (response.status === 200) {
             navigate(RouterPath.PASSWORD_CHANGED);
           } else {

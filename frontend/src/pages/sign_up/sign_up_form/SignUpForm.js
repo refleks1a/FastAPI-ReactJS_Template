@@ -44,7 +44,6 @@ export default function SignUpForm(props) {
 
       DataService.postSignUp(data)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 200) {
             navigate(RouterPath.SIGNUP_MAIL_SENT);
           } else {

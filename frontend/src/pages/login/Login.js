@@ -9,19 +9,15 @@ import { RouterPath } from "../../assets/dictionary/RouterPath";
 export default function HomePage(props) {
   const [isShowValidationError, setisShowValidationError] = useState(false);
   const [isSendingRequest, setisSendingRequest] = useState(false);
-
   const [EmailForm, setEmailForm] = useState("");
   const [PasswordForm, setPasswordForm] = useState("");
 
   let navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("token") ? true : false;
 
-
   const handleClick = (e) => {
     setisSendingRequest(true);
-
     e.preventDefault();
-
     if (
       !PasswordForm ||
       !String(EmailForm)
