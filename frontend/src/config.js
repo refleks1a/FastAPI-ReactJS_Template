@@ -4,10 +4,10 @@
 /* Configuration is built based on the environment variables, they are available only if npm start / npm test is used */
 const development = {
   api: {
-    ENDPOINT: "http://localhost:8000",
+    ENDPOINT: "http://localhost:8081/api",
   },
   frontend: {
-    FRONTEND_DOMAIN: "http://localhost:3000",
+    FRONTEND_DOMAIN: "http://localhost:8081",
   },
 };
 

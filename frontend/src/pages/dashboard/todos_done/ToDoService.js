@@ -8,10 +8,7 @@ const getTodos = async (is_done, page, size) => {
     {headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       }})
-    
-    console.log(response.data);
     return response;
-    
   } catch(error) {
     throw new Error(`Bad request`);
   };
@@ -25,10 +22,7 @@ const deleteToDo = async (id) => {
       {headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         }})
-      
-    //   console.log(response.data);
       return response;
-      
     } catch(error) {
       throw new Error(`Bad request`);
     };

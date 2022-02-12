@@ -2,15 +2,14 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { render } from "react-dom";
 
-// import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { RouterPath } from "./assets/dictionary/RouterPath";
 import { PrivateRoute } from "./components/auth/PrivateRoute";
 
 import App from "./App";
-import NavBarTop from "./components/nav_bar/NavBarTop";
 import HomePage from "./pages/home_page/HomePage";
+import Login from "./pages/login/Login";
 import SignUpForm from "./pages/sign_up/sign_up_form/SignUpForm";
 import ConfirmationEmailSent from "./pages/sign_up/confirmation_email_sent/ConfirmationEmailSent";
 import ToDo from "./pages/dashboard/todos/ToDo";
@@ -29,6 +28,7 @@ render(
     <Routes>
       <Route path={RouterPath.HOME} element={<App />}>
         <Route exact path={RouterPath.HOME} element={<HomePage />}></Route>
+        <Route path={RouterPath.LOGIN} element={<Login />} />
         <Route path={RouterPath.SIGNUP} element={<SignUpForm />} />
         <Route
           path={RouterPath.SIGNUP_MAIL_SENT}
@@ -88,7 +88,3 @@ render(
   rootElement
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
