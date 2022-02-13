@@ -1,4 +1,4 @@
-import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -13,7 +13,7 @@ export default function HomePage(props) {
   const [PasswordForm, setPasswordForm] = useState("");
 
   let navigate = useNavigate();
-  const isAuthenticated = localStorage.getItem("token") ? true : false;
+  
 
   const handleClick = (e) => {
     setisSendingRequest(true);
@@ -57,8 +57,6 @@ export default function HomePage(props) {
           <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
-              {!isAuthenticated && (
-                        <>     
                 <Card.Title>Login</Card.Title>
                 <Form>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -101,23 +99,15 @@ export default function HomePage(props) {
                     Email or password not valid
                   </Form.Text>
                 </Form>
+                
                 <LinkContainer to={RouterPath.FORGOT_PASSWORD}>
                   <Card.Link>Forgot password?</Card.Link>
                 </LinkContainer>
-                </>)}
-              {isAuthenticated && (
-                        <>     
-                <Card.Title>Welcome to Awesome ToDOo!</Card.Title>
-                <Card.Text className="pt-2">This web application was made with :
-                <ul>
-                  <li>ReactJS (JavaScript)</li>
-                  <li>FastAPI (Python)</li>
-                  <li>Bootstrap</li>
-                  <li>SQLite</li>
-                  <li>And other great technologies</li>
-                </ul>
-                </Card.Text>
-                </>)}
+                <Alert variant="success" className="mt-2">
+                  <p className="mb-0"><span className="fw-bold"><i class="bi bi-info-circle-fill"></i> Test account</span><br/>
+                  Login: gnetkov@gmail.com<br/>
+                  Password: 123123</p>
+                </Alert>
               </Card.Body>
             </Card>
           </Col>

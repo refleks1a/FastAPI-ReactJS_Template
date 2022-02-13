@@ -7,33 +7,10 @@ import ReactPaginate from "react-paginate"
 export default function ToDoDone() {
 
   const [refresh, setRefresh] = useState(0);
-
   const [ItemsTodos, setItemsTodos] = useState([]);
-
   const [pageCount, setpageCount] = useState(5);
   const [newPage, setnewPage] = useState(1);
-
-
   const itemsPerPage = 20;
-
-  const handleMakeDone = (id, e) => {
-
-    e.preventDefault();
-
-    const data = { id: id,   
-      todo_in: {
-      is_done: true
-    }
-    }
- 
-    DataService.makeDoneToDo(data)
-    .then(() => {
-      setRefresh(Date.now())
-    })
-    .catch((error) => {
-       //error
-    });
-  };
 
   const handleDelete = (id, e) => {
 
@@ -56,9 +33,6 @@ export default function ToDoDone() {
   ) {
     return (
       <span>
-        <Button variant="link" size="sm" 
-        onClick={(e) => handleMakeDone(formatExtraData[rowIndex].id, e)}
-        >Done</Button>
         <Button variant="link" size="sm" 
         onClick={(e) => handleDelete(formatExtraData[rowIndex].id, e)}
         >Delete</Button>

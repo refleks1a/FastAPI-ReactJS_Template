@@ -8,9 +8,7 @@ import ReactPaginate from "react-paginate"
 export default function ToDo() {
 
   const [refresh, setRefresh] = useState(0);
-
   const [ItemsTodos, setItemsTodos] = useState([]);
-
   const [pageCount, setpageCount] = useState(5);
   const [newPage, setnewPage] = useState(1);
 

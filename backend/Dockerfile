@@ -2,6 +2,9 @@
 
 FROM python:3.9
 
+# This prevents Python from writing out pyc files
+ENV PYTHONDONTWRITEBYTECODE 1
+
 WORKDIR /code/app
 
 COPY ./requirements.txt /code/requirements.txt

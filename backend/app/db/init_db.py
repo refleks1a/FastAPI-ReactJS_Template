@@ -13,10 +13,9 @@ from db.session import engine
 
 def init_db(db: Session) -> None:
     # Tables should be created with Alembic migrations
-    # But if you don't want to use migrations, create
-    # the tables un-commenting the next line
+    # But in this app we create during start of application
     Base.metadata.create_all(bind=engine)
-    pass
+    # Create user if not exist
     user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER_EMAIL)
     if not user:
         user_in = schemas.UserCreate(
@@ -29,9 +28,11 @@ def init_db(db: Session) -> None:
         )
         user = crud.user.create(db, obj_in=user_in)
 
+    # Create ToDos to fill Data Base
     todos = crud.todo.get_multi(db, is_done=None)
     number_todo = 100
     if len(todos)<number_todo:
+        print("Creating todos in Data Base")
         for i in range(number_todo):
             todo_in = schemas.TodoCreate(
                 title="Visit the office #{}". format(str(i+1)),
@@ -39,5 +40,4 @@ def init_db(db: Session) -> None:
                 
             )
             crud.todo.create_with_owner(db, obj_in=todo_in, owner_id=user.id)
-
-    print(todos)
+        print(todos)

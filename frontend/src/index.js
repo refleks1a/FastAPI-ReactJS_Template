@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { render } from "react-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { RouterPath } from "./assets/dictionary/RouterPath";
 import { PrivateRoute } from "./components/auth/PrivateRoute";

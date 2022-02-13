@@ -18,3 +18,6 @@ docker rm <id-cont>
 docker kill $(docker ps -q)
 # Delete all containers that are not running
 docker container rm $(docker ps -a -q)
+
+# Run tests in containers
+docker-compose exec todo-api python -m pytest tests/
