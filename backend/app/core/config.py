@@ -36,7 +36,7 @@ class Settings(BaseSettings):
 
     SQLALCHEMY_DATABASE_URI: Optional[str] = "sqlite:///./sql_app.db"
 
-    SMTP_TLS: bool = True
+    SMTP_TLS: bool = os.environ.get("MAIL_TLS")
     SMTP_PORT: Optional[int] = os.environ.get("SMTP_PORT")
     SMTP_HOST: Optional[str] = os.environ.get("SMTP_HOST")
     SMTP_USER: Optional[str] = os.environ.get("SMTP_USER")

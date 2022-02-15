@@ -105,7 +105,7 @@ export default function HomePage(props) {
                 </LinkContainer>
                 <Alert variant="success" className="mt-2">
                   <p className="mb-0"><span className="fw-bold"><i class="bi bi-info-circle-fill"></i> Test account</span><br/>
-                  Login: gnetkov@gmail.com<br/>
+                  Login: test@test.com<br/>
                   Password: 123123</p>
                 </Alert>
               </Card.Body>

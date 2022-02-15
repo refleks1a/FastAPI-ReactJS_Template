@@ -23,6 +23,16 @@ services:
     volumes:
       - ./backend/:/code
 
+  # reverse proxy for frontend/backend (fixes problems with CORS and simpler to deploy)
+  todo-reverse-proxy:
+    build:
+      context: ./reverse-proxy
+      dockerfile: Dockerfile
+
+  # fake smtp server to intercept and view sent emails
+  todo-mailhog:
+    ~
+    
   # # flask application -- worker part (rq)
   # qualis-worker:
   #   build:
@@ -47,22 +57,12 @@ services:
   #   volumes:
   #     - ./doc/:/docs
 
-  # reverse proxy for frontend/backend (fixes problems with CORS and simpler to deploy)
-  todo-reverse-proxy:
-    build:
-      context: ./reverse-proxy
-      dockerfile: Dockerfile
-
   # # postgres database, data is persisted in a volume
   # qualis-postgres:
   #   ~
 
   # # pgadmin to view and control the database
   # qualis-pgadmin:
-  #   ~
-
-  # # fake smtp server to intercept and view sent emails
-  # qualis-mailhog:
   #   ~
 
   # # redis database, data is persisted in a volume

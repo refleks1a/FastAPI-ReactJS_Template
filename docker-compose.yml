@@ -29,6 +29,7 @@ x-fastapi-app-environment: &common-fastapi-app-environment-variables
   SMTP_PORT: ${SMTP_PORT}
   SMTP_HOST: ${SMTP_HOST}
   EMAILS_FROM_NAME: ${EMAILS_FROM_NAME}
+  MAIL_TLS: ${MAIL_TLS}
 
 services:
   # react application with nginx reserve proxy for npm (NOT the same reverse proxy as in qualis-reverse-proxy)
@@ -75,6 +76,17 @@ services:
       API_PORT_INTERNAL: ${API_PORT_INTERNAL}
       FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
     restart: unless-stopped
+
+  # fake smtp server to intercept and view sent emails
+  todo-mailhog:
+    image: "mailhog/mailhog:v1.0.1"
+    ports:
+      - 1025:1025
+      - ${MAILHOG_PORT}:8025
+    environment:
+      <<: *common-linux-container-environment-variables
+    restart: unless-stopped
+
 
 #   # in order to run multiple instances we must run docker-compose with --scale parameter like this
 #   # docker-compose up--scale qualis-worker=5
@@ -143,14 +155,7 @@ services:
 #       GUNICORN_ACCESS_LOGFILE: /dev/null
 #     restart: unless-stopped
 
-#   # fake smtp server to intercept and view sent emails
-#   qualis-mailhog:
-#     image: "mailhog/mailhog:v1.0.1"
-#     ports:
-#       - ${QUALIS_MAILHOG_PORT}:8025
-#     environment:
-#       <<: *common-linux-container-environment-variables
-#     restart: unless-stopped
+
 
 #   qualis-redis:
 #     image: "redis:6.0.8-alpine3.12"
