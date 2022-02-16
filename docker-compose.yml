@@ -74,6 +74,7 @@ services:
       <<: *common-linux-container-environment-variables
       API_PORT_INTERNAL: ${API_PORT_INTERNAL}
       FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
+      MAILHOG_PORT_INTERNAL: ${MAILHOG_PORT_INTERNAL}
     restart: unless-stopped
 
   # fake smtp server to intercept and view sent emails
