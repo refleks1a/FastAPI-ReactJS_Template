@@ -17,7 +17,7 @@ const production = {
     ENDPOINT: "/api",
   },
   frontend: {
-    FRONTEND_DOMAIN: "http://todoapp.com",
+    FRONTEND_DOMAIN: "http://todo.gnetkov.com",
   },
 };
 
