@@ -15,7 +15,7 @@ services:
       # @see https://stackoverflow.com/a/51099232
       - ./frontend:/app
 
-  # flask application -- API part
+  # FastApi application
   todo-api:
     build:
       context: ./backend
@@ -33,45 +33,3 @@ services:
   todo-mailhog:
     ~
     
-  # # flask application -- worker part (rq)
-  # qualis-worker:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./backend/:/app
-
-  # # flask application -- worker part (rq)
-  # qualis-scheduler:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./backend/:/app
-
-  # # sphinx documentation application
-  # qualis-doc:
-  #   build:
-  #     context: ./doc
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./doc/:/docs
-
-  # # postgres database, data is persisted in a volume
-  # qualis-postgres:
-  #   ~
-
-  # # pgadmin to view and control the database
-  # qualis-pgadmin:
-  #   ~
-
-  # # redis database, data is persisted in a volume
-  # qualis-redis:
-  #   ~
-
-  # # web front-end to monitor your RQ queues, jobs, and workers in realtime
-  # qualis-rq-dashboard:
-  #   build:
-  #     context: ./rq-dashboard
-  #     dockerfile: Dockerfile
-
