@@ -13,8 +13,8 @@ export default function ResetPassword(props) {
   let navigate = useNavigate();
   let token = searchParams.get("token");
 
-  useEffect((navigate, token) => {
-    if (!token) {
+  useEffect(() => {
+    if (token == null) {
       navigate(RouterPath.LINK_NOT_VALID);
     }
   }, []);

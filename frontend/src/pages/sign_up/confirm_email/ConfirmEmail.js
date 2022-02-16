@@ -12,7 +12,7 @@ export default function ConfirmEmail(props) {
   let navigate = useNavigate();
   let token = searchParams.get("token");
 
-  useEffect((navigate, token) => {
+  useEffect(() => {
     if (!token) {
       navigate(RouterPath.LINK_NOT_VALID);
     }
