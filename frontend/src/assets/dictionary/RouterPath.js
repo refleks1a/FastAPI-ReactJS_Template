@@ -12,5 +12,6 @@ export const RouterPath = {
   LIST_TODOS: "/list-todos",
   LIST_DONE: "/list-done",
   MY_INFORMATION: "/my-information",
+  MAILHOG: "/mailhog",
 };
 Object.freeze(RouterPath);

@@ -46,7 +46,6 @@ services:
       # @see https://stackoverflow.com/questions/44643045/running-development-server-with-create-react-app-inside-of-a-docker-container
       CHOKIDAR_USEPOLLING: "true"
       REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
-      NODE_ENV: ${NODE_ENV}
     # Avoid container exiting immediately after start
     # @see https://github.com/facebook/create-react-app/issues/8688
     stdin_open: true

@@ -1,4 +1,6 @@
 import { Container, Row, Col, Card, Accordion } from "react-bootstrap";
+import { RouterPath } from "../../assets/dictionary/RouterPath"
+import myAppConfig from "../../config";
 
 export default function HomePage(props) {
   return (
@@ -42,6 +44,7 @@ export default function HomePage(props) {
                       <li>Alembic</li>
                       <li>Pytest</li>
                       <li>Data Base SQLite</li>
+                      <li>Logger</li>
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -78,6 +81,13 @@ export default function HomePage(props) {
                     <Accordion.Body>
                     <span className="fw-bold">NGINX</span> is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. 
 
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="6">
+                    <Accordion.Header>MailHog</Accordion.Header>
+                    <Accordion.Body>
+                    <p><span className="fw-bold">MailHog</span> is an email-testing tool with a fake SMTP server underneath.</p>
+                    <a href={myAppConfig.frontend.FRONTEND_DOMAIN + RouterPath.MAILHOG} target="_blank" rel="noreferrer" className="mt-2">Click here to open MailHog!</a>
                     </Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
