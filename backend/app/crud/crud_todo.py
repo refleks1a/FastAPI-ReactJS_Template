@@ -23,12 +23,14 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
     def query_get_multi_by_owner(
         self, db: Session, *, owner_id: int, is_done: bool
     ) -> List[Todo]:
-        query = (db.query(self.model)
+        query = (
+            db.query(self.model)
             .filter(Todo.owner_id == owner_id)
+            .order_by(Todo.id.desc())
         )
-        if is_done == True:
+        if is_done is True:
             query = query.filter(Todo.is_done == True)
-        elif is_done == False:
+        elif is_done is False:
             query = query.filter(Todo.is_done == False)
         return query
 
