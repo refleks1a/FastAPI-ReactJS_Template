@@ -19,12 +19,13 @@ export default function NavBarTop(props) {
       <Container fluid>
         <Row>
           <Col className="p-0">
-            <Navbar bg="dark" variant="dark"  expand="lg">
-              <Container>
+            <Navbar bg="dark" variant="dark"  expand="md">
+              <Container className="pe-0">
                 <Row className="w-100 justify-content-between">
-                  <Col xs={8} className="d-flex">
-                    <LinkContainer to={RouterPath.HOME}>
-                      <Navbar.Brand>ToDOo</Navbar.Brand>
+                  <Col xs={8} md={9} className="d-flex">
+
+                    <LinkContainer className="brand" to={RouterPath.HOME}>
+                      <Navbar.Brand>Awesome ToDOo</Navbar.Brand>
                     </LinkContainer>
                   {isAuthenticated && (
                           <>
