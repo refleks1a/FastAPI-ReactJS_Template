@@ -82,6 +82,6 @@ def get_todos(
     Get todos of current user.
     """
     todos = crud.todo.query_get_multi_by_owner(
-            db=db, owner_id=current_user.id, is_done = is_done,
+            db=db, owner_id=current_user.id, is_done=is_done,
         )
     return paginate(todos, params)
