@@ -56,7 +56,7 @@ export default function ToDo({tableRefresh }) {
     return (
         <>
         <Button size="sm" onClick={handleShow}>Add To Do</Button>
-        <Modal show={isShowModal} onHide={handleClose}>
+        <Modal show={isShowModal} onHide={handleClose} centered>
               <Modal.Header>
               <Modal.Title>Add To Do</Modal.Title>
               </Modal.Header>
