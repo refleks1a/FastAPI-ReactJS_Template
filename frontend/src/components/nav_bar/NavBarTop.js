@@ -19,28 +19,35 @@ export default function NavBarTop(props) {
       <Container fluid>
         <Row>
           <Col className="p-0">
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark"  expand="lg">
               <Container>
                 <Row className="w-100 justify-content-between">
                   <Col xs={8} className="d-flex">
                     <LinkContainer to={RouterPath.HOME}>
-                      <Navbar.Brand>Awesome ToDOo</Navbar.Brand>
+                      <Navbar.Brand>ToDOo</Navbar.Brand>
                     </LinkContainer>
-                    <Nav className="me-auto" activeKey={location.pathname}>
-                      {isAuthenticated && (
-                        <>
-                          <LinkContainer to={RouterPath.LIST_TODOS}>
-                            <Nav.Link>List To do</Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer to={RouterPath.LIST_DONE}>
-                            <Nav.Link>List done</Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer to={RouterPath.MY_INFORMATION}>
-                            <Nav.Link>My information</Nav.Link>
-                          </LinkContainer>
-                        </>
-                      )}
-                    </Nav>
+                  {isAuthenticated && (
+                          <>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3"/>
+                    
+                    <Navbar.Collapse id="basic-navbar-nav">
+                    
+                      <Nav className="me-auto" activeKey={location.pathname}>
+                        
+                            <LinkContainer to={RouterPath.LIST_TODOS}>
+                              <Nav.Link>List To do</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to={RouterPath.LIST_DONE}>
+                              <Nav.Link>List done</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to={RouterPath.MY_INFORMATION}>
+                              <Nav.Link>My information</Nav.Link>
+                            </LinkContainer>
+                          
+                      </Nav>
+                    </Navbar.Collapse>
+                    </>
+                        )}
                   </Col>
                   <Col
                     xs={3}
@@ -49,7 +56,7 @@ export default function NavBarTop(props) {
                     {!isAuthenticated && (
                       <>
                         <Link to={RouterPath.SIGNUP}>
-                          <Button>Sign up</Button>
+                          <Button className="text-nowrap">Sign up</Button>
                         </Link>
                         <Link className="ml-1" to={RouterPath.LOGIN}>
                           <Button variant="success">Login</Button>
@@ -58,7 +65,7 @@ export default function NavBarTop(props) {
                     )}
                     {isAuthenticated && (
                       <>
-                        <Button
+                        <Button className="text-nowrap"
                           variant="info"
                           onClick={(e) => handleClickLogOut(e)}
                         >
