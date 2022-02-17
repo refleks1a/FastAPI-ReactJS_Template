@@ -54,7 +54,7 @@ export default function ToDo() {
     formatExtraData
   ) {
     return (
-      <span>
+      <span className="table-buttons">
         <Button variant="link" size="sm" 
         onClick={(e) => handleMakeDone(formatExtraData[rowIndex].id, e)}
         >Done</Button>
