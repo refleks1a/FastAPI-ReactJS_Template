@@ -4,15 +4,15 @@
 
 Simple ToDo application with users and ToDos linked to users.
 
-Backend use FastAPI and running on Uvicorn server. Data Base is SQLite. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
+Backend is built on FastAPI framework and running on Uvicorn ASGI web server. Data Base is SQLite located in the backend folder. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
 
 There is a fake smtp server (MailHog) to intercept and view sent mails.
 
-FrontEnd made using ReactJS fonctional components with hooks. Styles and comoponents are BootStrap ReactJS components.
+FrontEnd is built with ReactJS fonctional components and react hooks. Styles and components are BootStrap ReactJS components.
 
 Servers are running inside docker containers. Docker-compose is used to manage them.
 
-Docker volumes are binded with developer workstations for direct code modifications. Hot reload are supported for todo-api and todo-frontend.
+Docker volumes are binded with developer workstations for direct code modifications. Hot reload are supported for todo-api (FastAPI) and todo-frontend (ReactJS) containers.
 
 Stack:
 - FastAPI
@@ -20,6 +20,8 @@ Stack:
 - BootStrap
 - SQLite
 - MailHog
+- Nginx
+- Docker and Docker-Compose
 
 
 ## Getting started
