@@ -1,26 +1,8 @@
 # ToDo-FastApi-ReactJS
 
-Simple ToDo application.
-
-Stack :
-- FastAPI
-- ReactJS
-- BootStrap
-- SQLite
-- MailHog
-
-
-## Getting started
-
-1. Copy .env.exemple to .env. Configure .env if needed.
-2. Run all application by using the file "start-docker-linux.sh"
-
-Once launched, there will be available hosts:
-- http://localhost:8081/ - FrontEnd application
-- http://localhost:8083/docs - BackEnd Swagger documentions
-- http://localhost:8085/ - MailHog to view mails sent by application
-
 ## About project
+
+Simple ToDo application with users and ToDos linked to users.
 
 Backend use FastAPI and running on Uvicorn server. Data Base is SQLite. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
 
@@ -31,6 +13,25 @@ FrontEnd made using ReactJS fonctional components with hooks. Styles and comopon
 Servers are running inside docker containers. Docker-compose is used to manage them.
 
 Docker volumes are binded with developer workstations for direct code modifications. Hot reload are supported for todo-api and todo-frontend.
+
+Stack:
+- FastAPI
+- ReactJS
+- BootStrap
+- SQLite
+- MailHog
+
+
+## Getting started
+
+1. Create a copy .env.exemple and rename it to .env. Configure .env if needed. .env is file with environment variables used for project configuration.
+2. Create all application containers running the file "start-docker-linux.sh"
+
+Once launched, there will be available hosts:
+- http://localhost:8081/ - FrontEnd application
+- http://localhost:8083/docs - BackEnd Swagger documentions
+- http://localhost:8085/ - MailHog to view mails sent by application
+
 
 ## Useful commands
 
