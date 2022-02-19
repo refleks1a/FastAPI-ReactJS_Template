@@ -34,28 +34,26 @@ Docker volumes are binded with developer workstations for direct code modificati
 
 ## Useful commands
 
-#### Build (or rebuild) the containers and launch all services
-docker-compose up --build --force-recreate
+Build (or rebuild) the containers and launch all services
+`docker-compose up --build --force-recreate`
 
-#### stop all services
-docker-compose down
+Stop all services
+`docker-compose down`
 
-#### Launch a new instance of the docker-compose service using docker-compose (starting a new container and running /bin/sh inside)
-# this is useful for container debugging
-docker-compose run todo-api /bin/sh
+Launch a new instance of the docker-compose service using docker-compose (starting a new container and running /bin/sh inside). This is useful for container debugging
+`docker-compose run todo-api /bin/sh`
 
-#### Execute a command inside a running container for service todo-my-service :
-#### (here are a running a /bin/sh inside todo-api container)
-docker-compose exec todo-api /bin/sh
+Execute a command inside a running container for service todo-my-service (here are a running a /bin/sh inside todo-api container):
+`docker-compose exec todo-api /bin/sh`
 
-#### Read a file from a container (to list all docker containers run docker ps -a)
-docker container cp dadd0a5984de5c7f1dac6300a284decf3cad897180c370b8ecab647d3202fd43:/app/package.json -
+Read a file from a container (to list all docker containers run docker ps -a)
+`docker container cp dadd0a5984de5c7f1dac6300a284decf3cad897180c370b8ecab647d3202fd43:/app/package.json -`
 
-#### Run tests inside todo-api container
-docker-compose exec todo-api python -m pytest tests/
+Run tests inside todo-api container
+`docker-compose exec todo-api python -m pytest tests/`
 
-#### Run shell inside FastAPI container:
-docker-compose exec todo-api /bin/sh
+Run shell inside FastAPI container:
+`docker-compose exec todo-api /bin/sh`
 
-#### Restart docker container in command line (in this exemple worker is todo-api)
-docker-compose restart todo-api
+Restart docker container in command line (in this exemple worker is todo-api)
+`docker-compose restart todo-api`
