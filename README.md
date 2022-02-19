@@ -35,7 +35,7 @@ Docker volumes are binded with developer workstations for direct code modificati
 ## Useful commands
 
 Build (or rebuild) the containers and launch all services
-`docker-compose up --build --force-recreate`
+    docker-compose up --build --force-recreate
 
 Stop all services
 `docker-compose down`
