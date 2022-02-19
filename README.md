@@ -38,7 +38,8 @@ Build (or rebuild) the containers and launch all services
     docker-compose up --build --force-recreate
 
 Stop all services
-```docker-compose down```
+
+`docker-compose down`
 
 Launch a new instance of the docker-compose service using docker-compose (starting a new container and running /bin/sh inside). This is useful for container debugging
 `docker-compose run todo-api /bin/sh`
