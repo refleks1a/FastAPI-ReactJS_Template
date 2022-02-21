@@ -24,8 +24,8 @@ Stack:
 - Docker and Docker-Compose
 
 ```mermaid
-graph Architecture;
-  Nginx-->FastAPI[FastAPI+SQLite];
+graph TD;
+  Nginx-->FastAPI+SQLite;
   Nginx-->ReactJS;
   Nginx-->MailHog;
 ```
