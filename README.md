@@ -25,7 +25,7 @@ Stack:
 
 ```mermaid
 graph Architecture;
-  Nginx-->FastAPI+SQLite;
+  Nginx-->FastAPI[FastAPI+SQLite];
   Nginx-->ReactJS;
   Nginx-->MailHog;
 ```
