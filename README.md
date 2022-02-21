@@ -25,10 +25,10 @@ Stack:
 
 ```mermaid
 graph TD;
-  User-->Reverse proxy Nginx
-  Reverse proxy Nginx-->FastAPI+SQLite;
-  Reverse proxy Nginx-->ReactJS;
-  Reverse proxy Nginx-->MailHog;
+  User-->Nginx[Reverse proxy Nginx]
+  Nginx[Reverse proxy Nginx]-->FastAPI+SQLite;
+  Nginx[Reverse proxy Nginx]-->ReactJS;
+  Nginx[Reverse proxy Nginx]-->MailHog;
 ```
 
 ## Getting started
