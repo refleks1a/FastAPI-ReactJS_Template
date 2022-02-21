@@ -16,8 +16,8 @@ Docker volumes are binded with developer workstations for direct code modificati
 
 Stack:
 - FastAPI
-- ReactJS
-- BootStrap
+- ReactJS, Bootstrap
+- Celery, Redis, Flower
 - SQLite
 - MailHog
 - Nginx
@@ -30,6 +30,10 @@ graph TD;
 
   subgraph " "
   Nginx-->FastAPI+SQLite;
+  FastAPI+SQLite-->Redis[Message broker Redis]
+  Redis-->Celery[Worker Celery]
+  Flower-->Redis
+  Nginx-->Flower
   Nginx-->ReactJS;
   Nginx-->MailHog;
   end
@@ -43,6 +47,7 @@ graph TD;
 Once launched, there will be available hosts:
 - http://localhost:8081/ - FrontEnd application
 - http://localhost:8083/docs - BackEnd Swagger documentions
+- http://localhost:8084 - Flower to view Celery Tasks
 - http://localhost:8085/ - MailHog to view mails sent by application
 
 
