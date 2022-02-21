@@ -27,6 +27,9 @@ x-fastapi-app-environment: &common-fastapi-app-environment-variables
   SMTP_HOST: ${SMTP_HOST}
   EMAILS_FROM_NAME: ${EMAILS_FROM_NAME}
   MAIL_TLS: ${MAIL_TLS}
+  # Celery worker configuration
+  CELERY_BROKER_URL: redis://todo-redis:6379/0
+  CELERY_RESULT_BACKEND: redis://todo-redis:6379/0
 
 services:
   # react application
@@ -56,6 +59,7 @@ services:
     environment:
       <<: *common-linux-container-environment-variables
       <<: *common-fastapi-app-environment-variables
+    command: uvicorn main:app --reload --proxy-headers --host 0.0.0.0 --port 8000
     restart: unless-stopped
 
 
@@ -83,3 +87,36 @@ services:
       <<: *common-linux-container-environment-variables
     restart: unless-stopped
 
+  # Backend Celery workers for long-running processes
+  todo-worker:
+    image: "todo-api:latest"
+    environment:
+      <<: *common-linux-container-environment-variables
+      <<: *common-fastapi-app-environment-variables
+    restart: unless-stopped
+    command: >-
+           celery --app core.celery_app.celery_app worker --loglevel=info --uid=nobody 
+           --gid=nogroup
+    depends_on:
+      - todo-api
+      - todo-redis
+
+  # Message broker Redis
+  todo-redis:
+    image: redis:6-alpine
+    #ports:
+    #  - 6379:6379
+
+  # Web-based monitoring tool for Celery
+  todo-flower:
+    ports:
+      - ${FLOWER_PORT}:${FLOWER_PORT_INTERNAL}
+    environment:
+      - CELERY_BROKER_URL=redis://todo-redis:${REDIS_PORT_INTERNAL}/0
+      - CELERY_RESULT_BACKEND=redis://todo-redis:${REDIS_PORT_INTERNAL}/0
+    depends_on:
+      - todo-api
+      - todo-redis
+      - todo-worker
+    command: celery --broker=redis://todo-redis:${REDIS_PORT_INTERNAL}/0 flower --port=${FLOWER_PORT_INTERNAL}
+    restart: unless-stopped
