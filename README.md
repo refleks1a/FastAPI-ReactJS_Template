@@ -25,7 +25,8 @@ Stack:
 
 ```mermaid
 graph TD;
-  Nginx-->FastAPI+SQLite;
+  User-->Reverse proxy Nginx
+  Reverse proxy Nginx-->FastAPI+SQLite;
   Nginx-->ReactJS;
   Nginx-->MailHog;
 ```
