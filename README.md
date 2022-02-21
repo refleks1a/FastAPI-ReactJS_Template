@@ -25,10 +25,14 @@ Stack:
 
 ```mermaid
 graph TD;
+
   User-->Nginx[Reverse proxy Nginx]
-  Nginx[Reverse proxy Nginx]-->FastAPI+SQLite;
-  Nginx[Reverse proxy Nginx]-->ReactJS;
-  Nginx[Reverse proxy Nginx]-->MailHog;
+
+  subgraph "Docker-compose"
+  Nginx-->FastAPI+SQLite;
+  Nginx-->ReactJS;
+  Nginx-->MailHog;
+  end
 ```
 
 ## Getting started
