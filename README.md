@@ -27,8 +27,8 @@ Stack:
 graph TD;
   User-->Reverse proxy Nginx
   Reverse proxy Nginx-->FastAPI+SQLite;
-  Nginx-->ReactJS;
-  Nginx-->MailHog;
+  Reverse proxy Nginx-->ReactJS;
+  Reverse proxy Nginx-->MailHog;
 ```
 
 ## Getting started
