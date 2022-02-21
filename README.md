@@ -2,7 +2,7 @@
 
 ## About project
 
-Simple ToDo application with users and ToDos linked to users.
+Simple ToDo application with user registration, login and adding of "To do" linked to users.
 
 Backend is built on FastAPI framework and running on Uvicorn ASGI web server. Data Base is SQLite located in the backend folder. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
 
@@ -23,6 +23,12 @@ Stack:
 - Nginx
 - Docker and Docker-Compose
 
+```mermaid
+graph Architecture;
+  Nginx-->FastAPI+SQLite;
+  Nginx-->ReactJS;
+  Nginx-->MailHog;
+```
 
 ## Getting started
 
