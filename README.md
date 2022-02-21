@@ -28,7 +28,7 @@ graph TD;
 
   User-->Nginx[Reverse proxy Nginx]
 
-  subgraph "Docker-compose"
+  subgraph " "
   Nginx-->FastAPI+SQLite;
   Nginx-->ReactJS;
   Nginx-->MailHog;
