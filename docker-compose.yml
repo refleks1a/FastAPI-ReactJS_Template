@@ -119,5 +119,6 @@ services:
       - todo-api
       - todo-redis
       - todo-worker
-    command: celery --broker=redis://todo-redis:${REDIS_PORT_INTERNAL}/0 flower --port=${FLOWER_PORT_INTERNAL}
+    command: celery --broker=redis://todo-redis:${REDIS_PORT_INTERNAL}/0 flower --port=${FLOWER_PORT_INTERNAL} --url_prefix=flower
+    #--url_prefix=flower
     restart: unless-stopped

@@ -41,6 +41,4 @@ services:
     ~
 
   todo-flower:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: mher/flower:0.9.4

@@ -40,7 +40,7 @@ export default function HomePage(props) {
                     <p><span className="fw-bold">Celery</span> is a task queue with focus on real-time processing, while also supporting task scheduling.</p>
                     <p><span className="fw-bold">Redis</span> is a performant, in memory, key-value data store used to store messages produced by the application code describing the work to be done in the Celery task queue.</p>
                     <p><span className="fw-bold">Flower</span> is a web based tool for monitoring and administrating Celery clusters.</p>
-                    {/* <a href={myAppConfig.frontend.FRONTEND_DOMAIN + RouterPath.FLOWER} target="_blank" rel="noreferrer" className="mt-2">Click here to open Flower!</a> */}
+                    <a href={myAppConfig.frontend.FRONTEND_DOMAIN + RouterPath.FLOWER} target="_blank" rel="noreferrer" className="mt-2">Click here to open Flower!</a>
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="2">
