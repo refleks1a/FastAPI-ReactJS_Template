@@ -12,7 +12,11 @@ export default function HomePage(props) {
             <Card.Header as="h5">Welcome to Awesome ToDOo!</Card.Header>
               <Card.Body>
               
-                <Card.Text>This application allow you to create and manage simple ToDos. Please create an account or use test account to test it.</Card.Text>
+                <Card.Text>
+                  <p>This application allow you to create and manage simple ToDos. Please create an account or use test account to test it.</p>
+                  <p>The source code is available on GitLab:</p>
+                  <a href="https://gitlab.com/FedorGN/todo-fastapi-reactjs" target="_blank" rel="noreferrer" className="mt-2">Clone me!</a>
+                  </Card.Text>
                 <Card.Title as="h6" className="mb-3">Tech stack </Card.Title>
                 <Accordion alwaysOpen>
                 <Accordion.Item eventKey="0">

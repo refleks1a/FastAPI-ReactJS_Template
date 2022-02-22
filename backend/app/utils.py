@@ -9,6 +9,7 @@ from jose import jwt
 
 from core.config import settings
 from core.logging import logger
+from core.celery_app import send_email_async
 
 def send_email(
     email_to: str,
@@ -39,7 +40,7 @@ def send_test_email(email_to: str) -> None:
     subject = f"{project_name} - Test email"
     with open(Path(settings.EMAIL_TEMPLATES_DIR) / "test_email.html") as f:
         template_str = f.read()
-    send_email(
+    send_email_async.delay(
         email_to=email_to,
         subject_template=subject,
         html_template=template_str,
@@ -55,7 +56,7 @@ def send_reset_password_email(email_to: str, email: str, token: str) -> None:
         template_str = f.read()
     server_host = settings.SERVER_HOST_FRONT
     link = f"{server_host}/reset-password?token={token}"
-    send_email(
+    send_email_async.delay(
         email_to=email_to,
         subject_template=subject,
         html_template=template_str,
@@ -74,7 +75,7 @@ def send_new_account_email(email_to: str, token: str) -> None:
     with open(Path(settings.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:
         template_str = f.read()
     link = f"{settings.SERVER_HOST_FRONT}/confirm-email?token={token}"
-    send_email(
+    send_email_async.delay(
         email_to=email_to,
         subject_template=subject,
         html_template=template_str,

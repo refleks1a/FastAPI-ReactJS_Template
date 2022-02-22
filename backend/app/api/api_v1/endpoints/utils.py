@@ -38,6 +38,9 @@ def test_email() -> Any:
 def get_status(
     task_id: str
 ):
+    """
+    Get status of a task
+    """
     task_result = AsyncResult(task_id)
     result = {
         "task_id": task_id,

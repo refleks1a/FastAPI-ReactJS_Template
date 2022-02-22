@@ -51,7 +51,7 @@ Once launched, there will be available hosts:
 - http://localhost:8085/ - MailHog to view mails sent by application
 
 
-## Useful commands
+## Some useful commands
 
 Build (or rebuild) the containers and launch all services:
 ```
