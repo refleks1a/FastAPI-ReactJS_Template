@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 # Create handlers
 c_handler = logging.StreamHandler()
-f_handler = logging.FileHandler('logs_error.log')
+f_handler = logging.FileHandler('logs/logs_error.log')
 c_handler.setLevel(logging.WARNING)
 f_handler.setLevel(logging.ERROR)
 
