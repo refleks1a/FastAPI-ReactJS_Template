@@ -37,6 +37,7 @@ def test_forgot_email_not_existing_email(
         f"{settings.API_V1_STR}/login/password-recovery/{email}")
     assert r.status_code == 201
 
+
 def test_forgot_email_existing_email(
     client: TestClient
 ) -> None:
