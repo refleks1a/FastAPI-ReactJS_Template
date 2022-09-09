@@ -13,9 +13,9 @@ import emails  # type: ignore
 from emails.template import JinjaTemplate  # type: ignore
 from jose import jwt  # type: ignore
 
-from core.config import settings
-from core.logging import logger
-from core.celery_app import send_email_async
+from app.core.config import settings
+from app.core.logging import logger
+from app.core.celery_app import send_email_async
 
 
 def send_email(
