@@ -2,12 +2,12 @@ from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException
 from pydantic.networks import EmailStr
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud, models, schemas
-from api import deps
-from core.config import settings
-from utils import send_new_account_email, generate_mail_confirmation_token, verify_mail_confirmation_token
+from app import crud, models, schemas
+from app.api import deps
+from app.core.config import settings
+from app.app_utils import send_new_account_email, generate_mail_confirmation_token, verify_mail_confirmation_token
 router = APIRouter()
 
 @router.get("/get-my-info", response_model=schemas.User)

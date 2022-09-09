@@ -1,11 +1,12 @@
 from typing import Optional
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud, models
-from schemas.todo import TodoCreate
-from tests.utils.user import create_random_user
-from tests.utils.utils import random_lower_string
+from app import crud
+from app import models
+from app.schemas.todo import TodoCreate
+from app.tests.utils.user import create_random_user
+from app.tests.utils.utils import random_lower_string
 
 
 def create_random_todo(db: Session, *, owner_id: Optional[int] = None, is_done: Optional[bool] = False) -> models.Todo:

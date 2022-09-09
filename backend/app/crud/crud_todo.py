@@ -2,11 +2,11 @@ from typing import List
 from xmlrpc.client import Boolean
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-from crud.base import CRUDBase
-from models.todo import Todo
-from schemas.todo import TodoCreate, TodoUpdate
+from app.crud.base import CRUDBase
+from app.models.todo import Todo
+from app.schemas.todo import TodoCreate, TodoUpdate
 
 
 class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
@@ -14,7 +14,7 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
         self, db: Session, *, obj_in: TodoCreate, owner_id: int
     ) -> Todo:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, owner_id=owner_id)
+        db_obj = self.model(**obj_in_data, owner_id=owner_id)   # type: ignore
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -34,7 +34,7 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
             query = query.filter(Todo.is_done == False)
         return query
 
-    def get_multi(
+    def get_multi(  # type: ignore
         self, db: Session, *, is_done: bool, limit: int = 100
     ) -> List[Todo]:
         query = db.query(self.model)
@@ -49,5 +49,6 @@ class CRUDTodo(CRUDBase[Todo, TodoCreate, TodoUpdate]):
         db.delete(obj)
         db.commit()
         return obj
-    
+
+
 todo = CRUDTodo(Todo)

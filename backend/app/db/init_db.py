@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud, schemas
-from core.config import settings
-from db.base import Base  # noqa: F401
-from db.session import engine
+from app import crud, schemas
+from app.core.config import settings
+from app.db.base import Base  # noqa: F401
+from app.db.session import engine
 
 # make sure all SQL Alchemy models are imported (app.db.base) before initializing DB
 # otherwise, SQL Alchemy might fail to initialize relationships properly
@@ -14,7 +14,7 @@ from db.session import engine
 def init_db(db: Session) -> None:
     # Tables should be created with Alembic migrations
     # But in this app we create during start of application
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)   # type: ignore
     # Create user if not exist
     user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER_EMAIL)
     if not user:
@@ -29,7 +29,7 @@ def init_db(db: Session) -> None:
         user = crud.user.create(db, obj_in=user_in)
 
     # Create ToDos to fill Data Base
-    todos = crud.todo.get_multi(db, is_done=None)
+    todos = crud.todo.get_multi(db, is_done=False)
     number_todo = 100
     if len(todos)<number_todo:
         print("Creating todos in Data Base")

@@ -1,15 +1,11 @@
-from typing import TYPE_CHECKING
+from sqlalchemy import Boolean, Column, Integer, String  # type: ignore
+from sqlalchemy.orm import relationship  # type: ignore
 
-from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import relationship
-
-from db.base_class import Base
-
-if TYPE_CHECKING:
-    from .todo import Item  # noqa: F401
+from app.db.base_class import Base  # type: ignore
 
 
 class User(Base):
+    """User model class."""
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(150), index=True)
     last_name = Column(String(150), index=True)

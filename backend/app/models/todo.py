@@ -1,12 +1,9 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean  # type: ignore
+from sqlalchemy.orm import relationship  # type: ignore
 
-from db.base_class import Base
-
-if TYPE_CHECKING:
-    from .user import User  # noqa: F401
+from app.db.base_class import Base
 
 
 class Todo(Base):

@@ -1,15 +1,22 @@
+import math
+from fastapi_pagination.ext.sqlalchemy import _to_dict, paginate_query
+from fastapi_pagination.bases import AbstractPage, AbstractParams
+from fastapi_pagination.api import create_page, resolve_params
+from sqlalchemy.orm import Query  # type: ignore
+from typing import Optional
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-import emails
-from emails.template import JinjaTemplate
-from jose import jwt
+import emails  # type: ignore
+from emails.template import JinjaTemplate  # type: ignore
+from jose import jwt  # type: ignore
 
 from core.config import settings
 from core.logging import logger
 from core.celery_app import send_email_async
+
 
 def send_email(
     email_to: str,
@@ -34,7 +41,6 @@ def send_email(
     logger.error(f"send email result: {response}")
 
 
-
 def send_test_email(email_to: str) -> None:
     project_name = settings.PROJECT_NAME
     subject = f"{project_name} - Test email"
@@ -46,7 +52,6 @@ def send_test_email(email_to: str) -> None:
         html_template=template_str,
         environment={"project_name": settings.PROJECT_NAME, "email": email_to},
     )
-
 
 
 def send_reset_password_email(email_to: str, email: str, token: str) -> None:
@@ -100,7 +105,8 @@ def generate_password_reset_token(email: str) -> str:
 
 def verify_password_reset_token(token: str) -> Optional[str]:
     try:
-        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+        decoded_token = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=["HS256"])
         return decoded_token["email"]
     except jwt.JWTError:
         return None
@@ -119,28 +125,15 @@ def generate_mail_confirmation_token(email: str) -> str:
 
 def verify_mail_confirmation_token(token: str) -> Optional[str]:
     try:
-        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+        decoded_token = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=["HS256"])
         return decoded_token["email"]
     except jwt.JWTError:
         return None
 
 
-from typing import Optional
-
-from sqlalchemy.orm import Query
-
-from fastapi_pagination.api import create_page, resolve_params
-from fastapi_pagination.bases import AbstractPage, AbstractParams
-from fastapi_pagination.ext.sqlalchemy import _to_dict, paginate_query
-import math
-
-
-
-
 def paginate(query: Query, params: Optional[AbstractParams] = None) -> AbstractPage:
     params = resolve_params(params)
     total = query.count()
-    total_pages = math.ceil(total/params.size)
     items = [_to_dict(item) for item in paginate_query(query, params)]
     return create_page(items, total, params)
-

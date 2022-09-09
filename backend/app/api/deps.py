@@ -2,14 +2,16 @@ from typing import Generator
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
+from jose import jwt  # type: ignore
 from pydantic import ValidationError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud, models, schemas
-from core import security
-from core.config import settings
-from db.session import SessionLocal
+from app import crud
+from app import models
+from app import schemas
+from app.core import security
+from app.core.config import settings
+from app.db.session import SessionLocal
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/get-access-token"
@@ -49,4 +51,3 @@ def get_current_active_user(
     if not crud.user.is_active(current_user):
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
-

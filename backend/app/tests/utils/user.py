@@ -1,13 +1,13 @@
 from typing import Dict
 
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud
-from core.config import settings
-from models.user import User
-from schemas.user import UserCreate, UserUpdate
-from tests.utils.utils import random_email, random_lower_string
+from app import crud
+from app.core.config import settings
+from app.models.user import User
+from app.schemas.user import UserCreate, UserUpdate
+from app.tests.utils.utils import random_email, random_lower_string
 
 
 def user_authentication_headers(
@@ -27,7 +27,8 @@ def create_random_user(db: Session) -> User:
     password = random_lower_string()
     first_name = random_lower_string()
     last_name = random_lower_string()
-    user_in = UserCreate(email=email, password=password, first_name=first_name, last_name=last_name)
+    user_in = UserCreate(email=email, password=password,
+                         first_name=first_name, last_name=last_name)
     user = crud.user.create(db=db, obj_in=user_in)
     return user
 
@@ -45,7 +46,8 @@ def authentication_token_from_email(
     if not user:
         first_name = random_lower_string()
         last_name = random_lower_string()
-        user_in_create = UserCreate(email=email, password=password, first_name=first_name, last_name=last_name)
+        user_in_create = UserCreate(
+            email=email, password=password, first_name=first_name, last_name=last_name)
         user = crud.user.create(db, obj_in=user_in_create)
     else:
         user_in_update = UserUpdate(password=password)

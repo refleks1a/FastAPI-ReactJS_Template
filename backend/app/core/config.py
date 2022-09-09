@@ -1,4 +1,3 @@
-import secrets
 from typing import Any, Dict, List, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
@@ -6,19 +5,22 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, v
 from dotenv import load_dotenv
 import os
 
+
 class Settings(BaseSettings):
-    
+
     load_dotenv()
     API_V1_STR: str = "/api/v1"
-    SECRET_KEY: str = os.environ.get("SECRET_KEY")
+    SECRET_KEY: str = os.environ["SECRET_KEY"]
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     SERVER_NAME: str = "ToDO App Server"
-    SERVER_HOST_FRONT: AnyHttpUrl = os.environ.get("SERVER_HOST_FRONT")
+    SERVER_HOST_FRONT: AnyHttpUrl = os.environ[  # type: ignore
+        "SERVER_HOST_FRONT"]
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
+        "http://localhost:3000"]  # type: ignore
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
@@ -28,21 +30,23 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    PROJECT_NAME: str = os.environ.get("PROJECT_NAME")
-    FIRST_SUPERUSER_EMAIL: str = os.environ.get("FIRST_SUPERUSER_EMAIL")
-    FIRST_SUPERUSER_FIRST_NAME: str = os.environ.get("FIRST_SUPERUSER_FIRST_NAME")
-    FIRST_SUPERUSER_LAST_NAME: str = os.environ.get("FIRST_SUPERUSER_FIRST_NAME") 
-    FIRST_SUPERUSER_PASSWORD: str = os.environ.get("FIRST_SUPERUSER_PASSWORD")
+    PROJECT_NAME: str = os.environ["PROJECT_NAME"]
+    FIRST_SUPERUSER_EMAIL: str = os.environ["FIRST_SUPERUSER_EMAIL"]
+    FIRST_SUPERUSER_FIRST_NAME: str = os.environ["FIRST_SUPERUSER_FIRST_NAME"]
+    FIRST_SUPERUSER_LAST_NAME: str = os.environ["FIRST_SUPERUSER_FIRST_NAME"]
+    FIRST_SUPERUSER_PASSWORD: str = os.environ["FIRST_SUPERUSER_PASSWORD"]
 
-    SQLALCHEMY_DATABASE_URI: Optional[str] = "sqlite:///./sql_app.db"
+    SQLALCHEMY_DATABASE_URI: str = "sqlite:///./sql_app.db"
 
-    SMTP_TLS: bool = os.environ.get("MAIL_TLS")
-    SMTP_PORT: Optional[int] = os.environ.get("SMTP_PORT")
-    SMTP_HOST: Optional[str] = os.environ.get("SMTP_HOST")
-    SMTP_USER: Optional[str] = os.environ.get("SMTP_USER")
-    SMTP_PASSWORD: Optional[str] = os.environ.get("SMTP_PASSWORD")
-    EMAILS_FROM_EMAIL: Optional[EmailStr] = os.environ.get("EMAILS_FROM_EMAIL")
-    EMAILS_FROM_NAME: Optional[str] = os.environ.get("EMAILS_FROM_NAME")
+    SMTP_TLS: bool = True if os.environ["MAIL_TLS"].upper(
+    ) == "TRUE" else False
+    SMTP_PORT: int = int(os.environ["SMTP_PORT"])
+    SMTP_HOST: str = os.environ["SMTP_HOST"]
+    SMTP_USER: str = os.environ["SMTP_USER"]
+    SMTP_PASSWORD: str = os.environ["SMTP_PASSWORD"]
+    EMAILS_FROM_EMAIL: EmailStr = os.environ[  # type: ignore
+        "EMAILS_FROM_EMAIL"]
+    EMAILS_FROM_NAME: str = os.environ["EMAILS_FROM_NAME"]
 
     @validator("EMAILS_FROM_NAME")
     def get_project_name(cls, v: Optional[str], values: Dict[str, Any]) -> str:
@@ -65,4 +69,4 @@ class Settings(BaseSettings):
         )
 
 
-settings = Settings()
+settings: Settings = Settings()

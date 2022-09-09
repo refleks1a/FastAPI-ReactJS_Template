@@ -1,11 +1,11 @@
 from typing import Any, Dict, Optional, Union
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-from core.security import get_password_hash, verify_password
-from crud.base import CRUDBase
-from models.user import User
-from schemas.user import UserCreate, UserUpdate
+from app.core.security import get_password_hash, verify_password
+from app.crud.base import CRUDBase
+from app.models.user import User
+from app.schemas.user import UserCreate, UserUpdate
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
@@ -13,7 +13,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return db.query(User).filter(User.email == email).first()
 
     def create(self, db: Session, *, obj_in: UserCreate) -> User:
-        db_obj = User(
+        db_obj = User(   # type: ignore
             email=obj_in.email,
             hashed_password=get_password_hash(obj_in.password),
             first_name=obj_in.first_name,

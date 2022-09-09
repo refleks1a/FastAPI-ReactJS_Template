@@ -1,13 +1,12 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from pydantic.networks import EmailStr
 
-import schemas
-from api import deps
-from utils import send_test_email
-from app.core.celery_app import print_test_message
-from celery.result import AsyncResult
+from app import schemas
+from app.app_utils import send_test_email
+from app.core.celery_app import print_test_message  # type: ignore
+from celery.result import AsyncResult  # type: ignore
 
 
 router = APIRouter()
@@ -25,13 +24,13 @@ def test_email(
 
 
 @router.post("/add-test-task/", response_model=schemas.Msg, status_code=201)
-def test_email() -> Any:
+def add_test_task() -> Any:
     """
     Test worker.
     """
     task = print_test_message.delay(5)
     return {"msg": task.id}
-    #return JSONResponse({"task_id": task.id})
+    # return JSONResponse({"task_id": task.id})
 
 
 @router.get("/get-task-info")

@@ -1,13 +1,11 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
 # Shared properties
 class TodoBase(BaseModel):
-    title: str = None
-    is_done: bool = None
-    owner_id: int = None
+    title: str
+    is_done: bool
+    owner_id: int
 
 
 # Properties to receive on Todo creation
@@ -19,9 +17,10 @@ class TodoCreate(BaseModel):
 class TodoDelete(BaseModel):
     id: int
 
+
 # Properties to receive on Todo update
-class TodoUpdate(TodoBase):
-    pass
+class TodoUpdate(BaseModel):
+    is_done: bool
 
 
 # Properties shared by models stored in DB

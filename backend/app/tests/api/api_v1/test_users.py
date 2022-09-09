@@ -1,7 +1,7 @@
 from typing import Dict
 
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
 from app import crud
 from app.core.config import settings
@@ -23,13 +23,14 @@ def test_signup_new_user(client: TestClient, db: Session) -> None:
     r = client.post(
         f"{settings.API_V1_STR}/users/signup", json=data,
     )
-    
+
     assert r.status_code == 200
     user = crud.user.get_by_email(db, email=email)
     assert user
     assert user.email == email
     assert user.first_name == first_name
     assert user.last_name == last_name
+
 
 def test_signup_existing_user(client: TestClient, db: Session) -> None:
     email = random_email()

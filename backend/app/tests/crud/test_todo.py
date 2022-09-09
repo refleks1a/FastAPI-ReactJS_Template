@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-import crud
-from schemas.todo import TodoCreate, TodoUpdate
-from tests.utils.user import create_random_user
-from tests.utils.utils import random_lower_string
+from app import crud
+from app.schemas.todo import TodoCreate, TodoUpdate
+from app.tests.utils.user import create_random_user
+from app.tests.utils.utils import random_lower_string
 
 
 def test_create_todo(db: Session) -> None:
@@ -39,14 +39,17 @@ def test_delete_todo(db: Session) -> None:
     assert todo2.title == title
     assert todo2.owner_id == user.id
 
+
 def test_update_todo(db: Session) -> None:
     title1 = random_lower_string()
     todo_in = TodoCreate(title=title1, is_done=False)
     user = create_random_user(db)
-    todo_initial = crud.todo.create_with_owner(db=db, obj_in=todo_in, owner_id=user.id)
+    todo_initial = crud.todo.create_with_owner(
+        db=db, obj_in=todo_in, owner_id=user.id)
     title2 = random_lower_string()
     todo_in_updated = TodoUpdate(title=title2, is_done=True)
-    todo_updated = crud.todo.update(db, obj_in=todo_in_updated, db_obj=todo_initial)
+    todo_updated = crud.todo.update(
+        db, obj_in=todo_in_updated, db_obj=todo_initial)
     assert todo_initial.id == todo_updated.id
     assert todo_initial.owner_id == todo_updated.owner_id
     assert title1 != todo_updated.title

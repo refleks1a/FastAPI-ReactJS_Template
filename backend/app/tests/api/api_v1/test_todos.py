@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore
 
-from core.config import settings
-from tests.utils.todo import create_random_todo
+from app.core.config import settings
+from app.tests.utils.todo import create_random_todo
 
 
 def test_create_todo(
