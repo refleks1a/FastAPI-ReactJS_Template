@@ -38,19 +38,3 @@ def test_delete_todo(db: Session) -> None:
     assert todo2.id == todo.id
     assert todo2.title == title
     assert todo2.owner_id == user.id
-
-
-def test_update_todo(db: Session) -> None:
-    title1 = random_lower_string()
-    todo_in = TodoCreate(title=title1, is_done=False)
-    user = create_random_user(db)
-    todo_initial = crud.todo.create_with_owner(
-        db=db, obj_in=todo_in, owner_id=user.id)
-    title2 = random_lower_string()
-    todo_in_updated = TodoUpdate(title=title2, is_done=True)
-    todo_updated = crud.todo.update(
-        db, obj_in=todo_in_updated, db_obj=todo_initial)
-    assert todo_initial.id == todo_updated.id
-    assert todo_initial.owner_id == todo_updated.owner_id
-    assert title1 != todo_updated.title
-    assert todo_updated.is_done is True
