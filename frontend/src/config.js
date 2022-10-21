@@ -9,6 +9,9 @@ const development = {
   frontend: {
     FRONTEND_DOMAIN: "http://localhost:8081",
   },
+  oauth2: {
+    GOOGLE_AUTH_CLIENT_ID: process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
+  }
 };
 
 /* Configuration is hardcoded here and is used if npm build is used */
@@ -19,6 +22,9 @@ const production = {
   frontend: {
     FRONTEND_DOMAIN: "http://todo.gnetkov.com",
   },
+  oauth2: {
+    GOOGLE_AUTH_CLIENT_ID: process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
+  }
 };
 
 /* REACT_APP_ENVIRONMENT has only four values:
@@ -42,6 +48,8 @@ switch (process.env.REACT_APP_ENVIRONMENT) {
     config = development;
     break;
 }
+
+
 
 export default {
   ...config,

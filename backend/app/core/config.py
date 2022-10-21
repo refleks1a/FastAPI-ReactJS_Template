@@ -68,5 +68,9 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
+    # Google OAuth2 authentication
+    GOOGLE_AUTH_CLIENT_ID: str = os.environ["GOOGLE_AUTH_CLIENT_ID"]
+    GOOGLE_AUTH_CLIENT_SECRET: str = os.environ["GOOGLE_AUTH_CLIENT_SECRET"]
+
 
 settings: Settings = Settings()

@@ -1,3 +1,8 @@
+from google.auth.transport import requests
+from google.oauth2 import id_token
+from fastapi import Request
+from authlib.integrations.starlette_client import OAuth
+from starlette.config import Config
 from datetime import timedelta
 from typing import Any
 
@@ -104,3 +109,70 @@ def reset_password(
     db.add(user)
     db.commit()
     return {"msg": "Password updated successfully"}
+
+
+config_data = {'GOOGLE_CLIENT_ID': settings.GOOGLE_AUTH_CLIENT_ID,
+               'GOOGLE_CLIENT_SECRET': settings.GOOGLE_AUTH_CLIENT_SECRET}
+starlette_config = Config(environ=config_data)
+oauth = OAuth(starlette_config)
+oauth.register(
+    name='google',
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={'scope': 'openid email profile'},
+)
+
+
+@router.get('/login/google-login')
+async def login(request: Request):
+    """Get google token and redirect to swap google token endpoint."""
+    redirect_uri = request.url_for('auth')
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.get('/login/google-auth', response_model=schemas.Token)
+async def auth(request: Request, db: Session = Depends(deps.get_db)):
+    """Swap google token to app jwt token."""
+    token = await oauth.google.authorize_access_token(request)
+    user = token['userinfo']
+    user = crud.user.get_by_email(db, email=user.email)
+    if not user:
+        raise HTTPException(
+            status_code=400, detail="Incorrect email")
+    elif not crud.user.is_active(user):
+        raise HTTPException(status_code=400, detail="Inactive user")
+    access_token_expires = timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    return {
+        "access_token": security.create_access_token(
+            user.id, expires_delta=access_token_expires
+        ),
+        "token_type": "bearer",
+    }
+
+
+@router.post('/login/google-auth', response_model=schemas.Token)
+async def auth_credentials(
+        credentials: str = Body(..., embed=True),
+        db: Session = Depends(deps.get_db)):
+    """Swap google token to app jwt token."""
+    try:
+        idinfo = id_token.verify_oauth2_token(
+            credentials, requests.Request(), settings.GOOGLE_AUTH_CLIENT_ID)
+    except Exception:
+        raise HTTPException(
+            status_code=400, detail="Incorrect google credentials.")
+    user_email = idinfo['email']
+    user = crud.user.get_by_email(db, email=user_email)
+    if not user:
+        raise HTTPException(
+            status_code=400, detail="Incorrect email")
+    elif not crud.user.is_active(user):
+        raise HTTPException(status_code=400, detail="Inactive user")
+    access_token_expires = timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    return {
+        "access_token": security.create_access_token(
+            user.id, expires_delta=access_token_expires
+        ),
+        "token_type": "bearer",
+    }
