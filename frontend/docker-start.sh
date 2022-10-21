@@ -14,4 +14,13 @@ if [ -d /install/node_modules ] ; then
   rsync --owner --group --usermap="*:${APP_UID}" --groupmap="*:${APP_GID}" -Wrlpt -h -H --no-compress --inplace /install/node_modules /app/
 fi
 
-su-exec ${APP_UID}:${APP_GID} npm start
+if [[ $REACT_APP_ENVIRONMENT = "production" ]]
+then
+  echo "Staring production node js server..."
+  su-exec -H -u node npm i -g serve
+  su-exec ${APP_UID}:${APP_GID} npm run build
+  su-exec ${APP_UID}:${APP_GID} npx serve -s build -p ${FRONTEND_PORT_INTERNAL}
+else
+  echo "Starting development node js server..."
+  su-exec ${APP_UID}:${APP_GID} npm start
+fi
