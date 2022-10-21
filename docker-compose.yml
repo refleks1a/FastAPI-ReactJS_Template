@@ -48,6 +48,8 @@ services:
       # needed for hot reload to work
       # @see https://stackoverflow.com/questions/44643045/running-development-server-with-create-react-app-inside-of-a-docker-container
       CHOKIDAR_USEPOLLING: "true"
+      NODE_OPTIONS: "--max-old-space-size=210"
+      # WEB_MEMORY: 128
       REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
       REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${GOOGLE_AUTH_CLIENT_ID}
     # Avoid container exiting immediately after start
