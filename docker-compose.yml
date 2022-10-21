@@ -52,6 +52,7 @@ services:
       # WEB_MEMORY: 128
       REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
       REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${GOOGLE_AUTH_CLIENT_ID}
+      FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
     # Avoid container exiting immediately after start
     # @see https://github.com/facebook/create-react-app/issues/8688
     stdin_open: true
