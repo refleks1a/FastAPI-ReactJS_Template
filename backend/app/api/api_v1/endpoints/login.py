@@ -122,32 +122,32 @@ oauth.register(
 )
 
 
-@router.get('/login/google-login')
-async def login(request: Request):
-    """Get google token and redirect to swap google token endpoint."""
-    redirect_uri = request.url_for('auth')
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+# @router.get('/login/google-login')
+# async def login(request: Request):
+#     """Get google token and redirect to swap google token endpoint."""
+#     redirect_uri = request.url_for('auth')
+#     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
-@router.get('/login/google-auth', response_model=schemas.Token)
-async def auth(request: Request, db: Session = Depends(deps.get_db)):
-    """Swap google token to app jwt token."""
-    token = await oauth.google.authorize_access_token(request)
-    user = token['userinfo']
-    user = crud.user.get_by_email(db, email=user.email)
-    if not user:
-        raise HTTPException(
-            status_code=400, detail="Incorrect email")
-    elif not crud.user.is_active(user):
-        raise HTTPException(status_code=400, detail="Inactive user")
-    access_token_expires = timedelta(
-        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    return {
-        "access_token": security.create_access_token(
-            user.id, expires_delta=access_token_expires
-        ),
-        "token_type": "bearer",
-    }
+# @router.get('/login/google-auth', response_model=schemas.Token)
+# async def auth(request: Request, db: Session = Depends(deps.get_db)):
+#     """Swap google token to app jwt token."""
+#     token = await oauth.google.authorize_access_token(request)
+#     user = token['userinfo']
+#     user = crud.user.get_by_email(db, email=user.email)
+#     if not user:
+#         raise HTTPException(
+#             status_code=400, detail="Incorrect email")
+#     elif not crud.user.is_active(user):
+#         raise HTTPException(status_code=400, detail="Inactive user")
+#     access_token_expires = timedelta(
+#         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+#     return {
+#         "access_token": security.create_access_token(
+#             user.id, expires_delta=access_token_expires
+#         ),
+#         "token_type": "bearer",
+#     }
 
 
 @router.post('/login/google-auth', response_model=schemas.Token)
