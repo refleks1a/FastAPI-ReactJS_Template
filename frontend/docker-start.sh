@@ -17,8 +17,8 @@ fi
 if [[ $REACT_APP_ENVIRONMENT = "production" ]]
 then
   echo "Staring production node js server..."
-  su-exec -H -u node npm i -g serve
-  su-exec ${APP_UID}:${APP_GID} npm run build
+  # su-exec -H -u node npm i -g serve
+  # su-exec ${APP_UID}:${APP_GID} npm run build
   su-exec ${APP_UID}:${APP_GID} npx serve -s build -p ${FRONTEND_PORT_INTERNAL}
 else
   echo "Starting development node js server..."
