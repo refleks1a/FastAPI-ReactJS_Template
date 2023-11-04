@@ -30,15 +30,15 @@ services:
       dockerfile: Dockerfile
 
   # fake smtp server to intercept and view sent emails
-  todo-mailhog:
-    ~
+  # todo-mailhog:
+  #   ~
 
 
-  todo-worker:
-    ~
+  # todo-worker:
+  #   ~
 
-  todo-redis:
-    ~
+  # todo-redis:
+  #   ~
 
   todo-flower:
     image: mher/flower:0.9.4

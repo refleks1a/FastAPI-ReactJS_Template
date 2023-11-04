@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session  # type: ignore
 
 from app import crud, schemas
 from app.core.config import settings
-from app.db.base import Base  # noqa: F401
+from app.db.base import Base 
 from app.db.session import engine
 
 # make sure all SQL Alchemy models are imported (app.db.base) before initializing DB
@@ -35,9 +35,8 @@ def init_db(db: Session) -> None:
         print("Creating todos in Data Base")
         for i in range(number_todo):
             todo_in = schemas.TodoCreate(
-                title="Visit the office #{}". format(str(i+1)),
+                title=f"Visit the office #{str(i+1)}",
                 is_done=False,
                 
             )
             crud.todo.create_with_owner(db, obj_in=todo_in, owner_id=user.id)
-        print(todos)

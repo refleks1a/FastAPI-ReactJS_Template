@@ -35,8 +35,23 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_FIRST_NAME: str = os.environ["FIRST_SUPERUSER_FIRST_NAME"]
     FIRST_SUPERUSER_LAST_NAME: str = os.environ["FIRST_SUPERUSER_FIRST_NAME"]
     FIRST_SUPERUSER_PASSWORD: str = os.environ["FIRST_SUPERUSER_PASSWORD"]
+    POSTGRES_HOST: str = os.environ.get("POSTGRES_HOST")
+    POSTGRES_PORT: str = os.environ.get("POSTGRES_PORT")
+    POSTGRES_USER: str = os.environ.get("POSTGRES_USER")
+    POSTGRES_PASSWORD: str = os.environ.get("POSTGRES_PASSWORD")
+    POSTGRES_DB: str = os.environ.get("POSTGRES_DB")
 
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///./sql_app.db"
+    POSTGRESQL_DATABASE_URI: Optional[
+        str] = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    PostgresDsn.build(
+        scheme="postgresql",
+        user=POSTGRES_USER,
+        password=POSTGRES_PASSWORD,
+        host=f"{POSTGRES_HOST}:{POSTGRES_PORT}",
+        path=f"/{POSTGRES_DB or ''}",
+    )
+
 
     SMTP_TLS: bool = True if os.environ["MAIL_TLS"].upper(
     ) == "TRUE" else False

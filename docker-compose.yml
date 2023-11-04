@@ -11,8 +11,17 @@ x-linux-container-environment:
 x-fastapi-app-environment:
 
   &common-fastapi-app-environment-variables
+  TZ: ${TZ}
+  # 1000 is the default main user uid/gid, using it as a sane default value
+  APP_UID: ${APP_UID:-1000}
+  APP_GID: ${APP_GID:-1000}
   API_PORT: ${API_PORT}
   API_PORT_INTERNAL: ${API_PORT_INTERNAL}
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
   SECRET_KEY: ${SECRET_KEY}
   PROJECT_NAME: ${PROJECT_NAME}
   SERVER_HOST_FRONT: ${SERVER_HOST_FRONT}
@@ -36,7 +45,6 @@ x-fastapi-app-environment:
 
 services:
   # react application
-  # @see https://mherman.org/blog/dockerizing-a-react-app/
   todo-frontend:
     image: "todo-frontend:latest"
     depends_on:
@@ -46,15 +54,10 @@ services:
     environment:
       <<: *common-linux-container-environment-variables
       # needed for hot reload to work
-      # @see https://stackoverflow.com/questions/44643045/running-development-server-with-create-react-app-inside-of-a-docker-container
       CHOKIDAR_USEPOLLING: "true"
-      # NODE_OPTIONS: "--max-old-space-size=210"
-      # WEB_MEMORY: 128
       REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
       REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${GOOGLE_AUTH_CLIENT_ID}
       FRONTEND_PORT_INTERNAL: ${FRONTEND_PORT_INTERNAL}
-    # Avoid container exiting immediately after start
-    # @see https://github.com/facebook/create-react-app/issues/8688
     stdin_open: true
     restart: unless-stopped
 
@@ -64,7 +67,6 @@ services:
     ports:
       - ${API_PORT}:${API_PORT_INTERNAL}
     environment:
-      <<: *common-linux-container-environment-variables
       <<: *common-fastapi-app-environment-variables
     command: uvicorn main:app --reload --proxy-headers --host 0.0.0.0 --port 8000
     restart: unless-stopped
@@ -98,7 +100,6 @@ services:
   todo-worker:
     image: "todo-api:latest"
     environment:
-      <<: *common-linux-container-environment-variables
       <<: *common-fastapi-app-environment-variables
     restart: unless-stopped
     command: >-
@@ -113,7 +114,7 @@ services:
     #ports:
     #  - 6379:6379
 
-    # Web-based monitoring tool for Celery
+  # Web-based monitoring tool for Celery
   todo-flower:
     ports:
       - ${FLOWER_PORT}:${FLOWER_PORT_INTERNAL}
@@ -125,5 +126,38 @@ services:
       - todo-redis
       - todo-worker
     command: celery --broker=redis://todo-redis:${REDIS_PORT_INTERNAL}/0 flower --port=${FLOWER_PORT_INTERNAL} --url_prefix=flower
-    #--url_prefix=flower
     restart: unless-stopped
+
+  # postgres database, data is persisted in a volume
+  todo-postgres:
+    image: "postgres:14.5-alpine"
+    environment:
+      <<: *common-linux-container-environment-variables
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - todo-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # pgadmin to view and control the database
+  todo-pgadmin:
+    image: "dpage/pgadmin4:5.3"
+    depends_on:
+      - todo-postgres
+    ports:
+      - ${PGADMIN_PORT}:80
+    environment:
+      <<: *common-linux-container-environment-variables
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_PASSWORD_FILE: ${PGADMIN_DEFAULT_PASSWORD_FILE}
+      # disable spamming all the screen with logs
+      GUNICORN_ACCESS_LOGFILE: /dev/null
+    restart: unless-stopped
+
+volumes:
+  todo-postgres-data:
+    name: ${POSTGRES_STORAGE_VOLUME_NAME}
