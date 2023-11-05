@@ -18,26 +18,11 @@ Stack:
 - FastAPI
 - ReactJS, Bootstrap
 - Celery, Redis, Flower
-- SQLite
+- PostgreSQL
+- PGAdmin
 - MailHog
 - Nginx
 - Docker and Docker-Compose
-
-```mermaid
-graph TD;
-
-  User-->Nginx[Reverse proxy Nginx]
-
-  subgraph " "
-  Nginx-->FastAPI+SQLite;
-  FastAPI+SQLite-->Redis[Message broker Redis]
-  Redis-->Celery[Worker Celery]
-  Flower-->Redis
-  Nginx-->Flower
-  Nginx-->ReactJS;
-  Nginx-->MailHog;
-  end
-```
 
 ## Getting started
 
@@ -49,7 +34,7 @@ Once launched, there will be available hosts:
 - http://localhost:8083/docs - BackEnd Swagger documentions
 - http://localhost:8084 - Flower to view Celery Tasks
 - http://localhost:8085/ - MailHog to view mails sent by application
-
+- http://localhost:8086/ - PGAdmin to veiw DB tables and data
 
 ## Some useful commands
 

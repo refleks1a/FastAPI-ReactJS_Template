@@ -53,7 +53,6 @@ services:
       - ${FRONTEND_PORT}:${FRONTEND_PORT_INTERNAL}
     environment:
       <<: *common-linux-container-environment-variables
-      # needed for hot reload to work
       CHOKIDAR_USEPOLLING: "true"
       REACT_APP_ENVIRONMENT: ${REACT_APP_ENVIRONMENT}
       REACT_APP_GOOGLE_AUTH_CLIENT_ID: ${GOOGLE_AUTH_CLIENT_ID}
