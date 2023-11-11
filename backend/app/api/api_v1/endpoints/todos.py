@@ -25,7 +25,7 @@ def create_todo(
     """
     Create new todo for current user.
     """
-    todo = crud.todo.create_with_owner(
+    todo: models.Todo = crud.todo.create_with_owner(
         db, obj_in=todo_in, owner_id=current_user.id)
     return todo
 
