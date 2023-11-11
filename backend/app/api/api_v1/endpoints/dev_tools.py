@@ -8,6 +8,7 @@ from app.app_utils import send_test_email
 from app.core.celery_app import print_test_message  # type: ignore
 from celery.result import AsyncResult  # type: ignore
 
+from app.core.logging import logger
 
 router = APIRouter()
 
@@ -29,6 +30,7 @@ def add_test_task() -> Any:
     Test worker.
     """
     task = print_test_message.delay(5)
+    logger.info(f"Task was created, task_id: {task.id}")
     return {"msg": task.id}
 
 

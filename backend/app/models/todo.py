@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean  # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 
