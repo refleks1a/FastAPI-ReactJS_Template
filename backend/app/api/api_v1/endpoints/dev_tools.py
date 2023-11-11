@@ -30,7 +30,6 @@ def add_test_task() -> Any:
     """
     task = print_test_message.delay(5)
     return {"msg": task.id}
-    # return JSONResponse({"task_id": task.id})
 
 
 @router.get("/get-task-info")

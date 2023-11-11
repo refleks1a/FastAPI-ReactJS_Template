@@ -17,7 +17,7 @@ celery_app.conf.update(imports=['app.core.celery_app'])
 celery_log = get_task_logger(__name__)
 
 @celery_app.task
-def print_test_message(quantity: int) -> Any:
+def print_test_message(quantity: int) -> bool:
     """Print message with 2 second interval."""
     for i in range(quantity):
         sleep(2)
