@@ -32,7 +32,7 @@ Stack:
 Once launched, there will be available hosts:
 - http://localhost:8081/ - FrontEnd application
 - http://localhost:8083/docs - BackEnd Swagger documentions
-- http://localhost:8084 - Flower to view Celery Tasks
+- http://localhost:8081/flower/ - Flower to view Celery Tasks
 - http://localhost:8085/ - MailHog to view mails sent by application
 - http://localhost:8086/ - PGAdmin to veiw DB tables and data
 
