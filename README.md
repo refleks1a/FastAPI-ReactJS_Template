@@ -64,6 +64,10 @@ Run tests inside todo-api container:
 ```
 docker-compose exec todo-api python -m pytest tests/
 ```
+Run mypy inside todo-api container:
+```
+docker-compose run todo-api mypy /code/app
+```
 Run shell inside FastAPI container:
 ```
 docker-compose exec todo-api /bin/sh

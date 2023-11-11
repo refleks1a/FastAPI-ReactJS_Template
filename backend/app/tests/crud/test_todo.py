@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session  # type: ignore
 
 from app import crud
-from app.schemas.todo import TodoCreate, TodoUpdate
+from app.schemas.todo import TodoCreate
 from app.tests.utils.user import create_random_user
 from app.tests.utils.utils import random_lower_string
 

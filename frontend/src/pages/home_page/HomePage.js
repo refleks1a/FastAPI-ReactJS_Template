@@ -33,7 +33,6 @@ export default function HomePage(props) {
                       <li>Bcrypt</li>
                       <li>Alembic</li>
                       <li>Pytest</li>
-                      <li>Data Base SQLite</li>
                       <li>Logger</li>
                       </ul>
                     </Accordion.Body>
@@ -61,7 +60,6 @@ export default function HomePage(props) {
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
-                  
                   <Accordion.Item eventKey="3">
                     <Accordion.Header>Figma (UI/UX design)</Accordion.Header>
                     <Accordion.Body>
@@ -74,6 +72,13 @@ export default function HomePage(props) {
                     </Accordion.Body>
                   </Accordion.Item>
                   <Accordion.Item eventKey="4">
+                    <Accordion.Header>PostgreSQL and PGAdmin</Accordion.Header>
+                    <Accordion.Body>
+                    <p><span className="fw-bold">PostgreSQL</span> is a free and open-source relational database management system.</p>
+                    <p><span className="fw-bold">PGAdmin</span> is a web-based Graphical User Interface (GUI) management application used to communicate with Postgres and derivative relational databases.</p>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="5">
                     <Accordion.Header>Docker and Docker-compose</Accordion.Header>
                     <Accordion.Body>
                     <span className="fw-bold">Docker</span> is an open platform for developing, shipping, and running applications. Docker let to separate applications from infrastructure for quick software delivery software. 
@@ -83,27 +88,27 @@ export default function HomePage(props) {
 
                     </Accordion.Body>
                   </Accordion.Item>
-                  <Accordion.Item eventKey="5">
+                  <Accordion.Item eventKey="6">
                     <Accordion.Header>GitLab</Accordion.Header>
                     <Accordion.Body>
                     <span className="fw-bold">GitLab</span> is a web-based Git repository that provides free open and private repositories, issue-following capabilities, and wikis. 
 
                     </Accordion.Body>
                   </Accordion.Item>
-                  <Accordion.Item eventKey="6">
+                  <Accordion.Item eventKey="7">
                     <Accordion.Header>Nginx</Accordion.Header>
                     <Accordion.Body>
                     <span className="fw-bold">NGINX</span> is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. 
-
                     </Accordion.Body>
                   </Accordion.Item>
-                  <Accordion.Item eventKey="7">
+                  <Accordion.Item eventKey="8">
                     <Accordion.Header>MailHog</Accordion.Header>
                     <Accordion.Body>
                     <p><span className="fw-bold">MailHog</span> is an email-testing tool with a fake SMTP server underneath.</p>
                     <a href={myAppConfig.frontend.FRONTEND_DOMAIN + RouterPath.MAILHOG} target="_blank" rel="noreferrer" className="mt-2">Click here to open MailHog!</a>
                     </Accordion.Body>
                   </Accordion.Item>
+
                 </Accordion>
               </Card.Body>
             </Card>
