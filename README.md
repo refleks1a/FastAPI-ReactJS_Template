@@ -1,18 +1,18 @@
-# ToDo-FastApi-ReactJS
+# Template-FastApi-ReactJS
 
 ## About project
 
-Simple ToDo application with user registration, login and adding of "To do" linked to users.
+Simple application with user registration, login.
 
-Backend is built on FastAPI framework and running on Uvicorn ASGI web server. Data Base is SQLite located in the backend folder. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
+Backend is built on FastAPI framework and running on Uvicorn ASGI web server. Data Base is PostgreSQL located in the backend folder. The first time launched, the application creates tables and fills them with data (Test user and test user's Todos).
 
 There is a fake smtp server (MailHog) to intercept and view sent mails.
 
-FrontEnd is built with ReactJS fonctional components and react hooks. Styles and components are BootStrap ReactJS components.
+FrontEnd is built with ReactJS functional components and react hooks. Styles and components are BootStrap ReactJS components.
 
 Servers are running inside docker containers. Docker-compose is used to manage them.
 
-Docker volumes are binded with developer workstations for direct code modifications. Hot reload are supported for todo-api (FastAPI) and todo-frontend (ReactJS) containers.
+Docker volumes are binded with developer workstations for direct code modifications. Hot reload are supported for api (FastAPI) and frontend (ReactJS) containers.
 
 Stack:
 - FastAPI
@@ -29,7 +29,7 @@ Stack:
 1. Create a copy .env.exemple and rename it to .env. Configure .env if needed. .env is file with environment variables used for project configuration.
 2. Create all application containers running the file "start-docker-linux.sh"
 
-Once launched, there will be available hosts:
+Available hosts:
 - http://localhost:8081/ - FrontEnd application
 - http://localhost:8083/docs - BackEnd Swagger documentions
 - http://localhost:8081/flower/ - Flower to view Celery Tasks
@@ -38,16 +38,6 @@ Once launched, there will be available hosts:
 
 ## Some useful commands
 
-Build (or rebuild) the containers and launch all services:
-```
-docker-compose up --build --force-recreate
-```
-
-Stop all services:
-
-```
-docker-compose down
-```
 Launch a new instance of the docker-compose service using docker-compose (starting a new container and running /bin/sh inside). This is useful for container debugging:
 ```
 docker-compose run todo-api /bin/sh
