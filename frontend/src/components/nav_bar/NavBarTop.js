@@ -25,7 +25,7 @@ export default function NavBarTop(props) {
                   <Col xs={8} md={9} className="d-flex">
 
                     <LinkContainer className="brand" to={RouterPath.HOME}>
-                      <Navbar.Brand>Awesome ToDOo</Navbar.Brand>
+                      <Navbar.Brand>Refleks1a</Navbar.Brand>
                     </LinkContainer>
                   {isAuthenticated && (
                           <>

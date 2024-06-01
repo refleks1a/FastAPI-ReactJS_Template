@@ -29,7 +29,7 @@ export default function Profil(props) {
           <Col xs={12} sm={10} md={8} lg={6} xl={4} >
             <Card>
               <Card.Body>
-                <Card.Title>Profil</Card.Title>
+                <Card.Title>Profile</Card.Title>
                 <Form>
                   <Form.Group  className="mb-3">
                     <Form.Label>First name</Form.Label>
